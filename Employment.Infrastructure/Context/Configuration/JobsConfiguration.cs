@@ -17,18 +17,15 @@ namespace Job.Infrastructure.Context.Configuration
             builder.Property(x=>x.Title).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired();
             builder.Property(x=>x.Content).HasColumnType("NVARCHAR").HasMaxLength(500).IsRequired();
             builder.Property(x=>x.CompanyID).HasColumnType("NVARCHAR").HasMaxLength(450).IsRequired();
-            builder.Property(x=>x.SkillsTypeID).HasColumnType("INT").IsRequired(false);
-         
+            builder.Property(x=>x.SkillsTypeID).HasColumnType("INT").IsRequired(false);        
             builder.HasOne(x => x.SkillsType).WithMany(x => x.Jobs).HasForeignKey(x => x.SkillsTypeID).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Company).WithMany(x => x.Jobs).HasForeignKey(x => x.CompanyID).OnDelete(DeleteBehavior.Restrict);
             builder.Property(x => x.FullTimeORPartTime).HasColumnType("BIT").IsRequired();
             builder.Property(x => x.RemoteOROnSite).HasColumnType("BIT").IsRequired();
-            builder.Property(x => x.IsActive).HasColumnType("BIT").IsRequired();
-          
+            builder.Property(x => x.IsActive).HasColumnType("BIT").IsRequired();         
             builder.Property(x => x.CreatedAt).HasColumnType("smalldatetime").IsRequired();
 
-            builder.ToTable("Jobs");
-           
+            builder.ToTable("Jobs");          
         }
     }
 }

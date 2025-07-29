@@ -31,7 +31,6 @@ namespace Job.Services.Business
             var UserID1 = _userService.GetCuurentUserID();
 
             var IsConvrsationExest = await _dbContext.Conversations.SingleOrDefaultAsync(x => (x.UserID1 == UserID1 && x.UserID2 == UserID2) || (x.UserID1 == UserID2 && x.UserID2 == UserID1));
-
             if (IsConvrsationExest != null)
                 return new Result { Success = false, Message = "The Convrsation Is Already Exest" };
 
@@ -51,7 +50,6 @@ namespace Job.Services.Business
 
             if (IsConExest.UserID1 == CurrentUserID || IsConExest.UserID2 == CurrentUserID)
             {
-
                 var Message = new Messages
                 {
                     ConversationId = IsConExest.ID,
@@ -99,9 +97,7 @@ namespace Job.Services.Business
                         "Not Found"
                 })
                 .ToListAsync();
-            return conversations;
-          
-
+            return conversations;        
         }
 
 

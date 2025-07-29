@@ -10,6 +10,5 @@ namespace Job.Services.JobServices.DTOs.JobDTO
     {
         public string? EmployeeID { get; set; }
         public string? FullName { get; set; }
-
     }
 }

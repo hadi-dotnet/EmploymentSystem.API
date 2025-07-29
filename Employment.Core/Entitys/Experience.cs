@@ -16,11 +16,8 @@ namespace Job.Core.Entitys
         public string? Description { get; set; } 
         public DateTime? StartAT { get; set; } 
         public DateTime? FinishAT { get; set; } 
-
-        public Employees Employee { get; set; }
-        public Company Company { get; set; }
-
+        public Employees? Employee { get; set; }
+        public Company? Company { get; set; }
         public ICollection<ApplyExperience> ApplyExperience { get; set; } = new List<ApplyExperience>();
-
     }
 }

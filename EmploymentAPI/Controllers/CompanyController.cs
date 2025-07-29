@@ -28,23 +28,18 @@ namespace Job.API.Controllers
         [HttpPut("UpdateCompany")]
         public async Task<IActionResult> UpdateCompany([FromForm] Dtos.CompanyDTOAPI companyDTOApi)
         {
-
             var Userrole = User.FindFirst(ClaimTypes.Role)?.Value;
             if (Userrole != "Company")
             {
                 return Unauthorized();
             }
 
-
             var company = new CompanyDTO();
             company.ImagePath =await _company.SetImage(companyDTOApi.Logo);
             company.Address = companyDTOApi.Address;
             company.About = companyDTOApi.About;
             company.Name = companyDTOApi.Name;
-
-
-
-            
+         
             var Result = await _company.UpdateCompany(company);
             if(!Result.Success)
             {
@@ -52,39 +47,14 @@ namespace Job.API.Controllers
             }
 
             return Ok(Result.Message);
-                
-
-                
-            
-
-
         }
-
-        //[HttpGet("GetCompanyInformation")]
-
-        //public async Task<ActionResult<CompanyDTO>> GetCompanyInformation()
-        //{
-        //    var UserRole = User.FindFirst(ClaimTypes.Role)?.Value;
-        //    if (UserRole != "Company")  return Unauthorized();
-
-            
-
-        // var CompanyDTO = await _company.GetCompanyInformation();
-        //    if (CompanyDTO == null) return NotFound("Company IS NOT Found");
-
-        //    return Ok(CompanyDTO);
-            
-        //}
         [AllowAnonymous]
         [HttpGet("FindCompany")]
-        public async Task<ActionResult<List< FindCompanyDTO>>> FindCompany(string companyName)
+        public async Task<ActionResult<List< FindCompanyDTO>>> FindCompany([FromQuery] string companyName)
         {
             var CompanyList = await _company.FindCompany(companyName);
             if (CompanyList == null) return NotFound("Not Found");
-
             return Ok(CompanyList);
-
-
         }
 
 

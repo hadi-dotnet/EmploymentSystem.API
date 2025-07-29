@@ -8,12 +8,6 @@ using System.Threading.Tasks;
 
 namespace Job.Infrastructure.Context.Configuration
 {
-
-    public enum SenderBY
-    {
-        Employee = 1, Company = 2
-    }
-
     public class Messages
     {
         public int ID { get; set; }
@@ -21,9 +15,7 @@ namespace Job.Infrastructure.Context.Configuration
         public string? SenderBy { get; set; }
         public string? MassageText { get; set; }
         public DateTime? SendAT { get; set; }
-        public AppUser AppUser { get; set; }
-
-        public Conversations Conversation {  get; set; }
-
+        public AppUser? AppUser { get; set; }
+        public Conversations? Conversation {  get; set; }
     }
 }

@@ -21,8 +21,7 @@ namespace Job.Services.Business
             var Com = _Context.Companies.FirstOrDefault(x => x.UserID == CompanyID);
             if (!string.IsNullOrEmpty(Com.Image) && System.IO.File.Exists(Com.Image))
             {
-                System.IO.File.Delete(Com.Image);
-                
+                System.IO.File.Delete(Com.Image);              
             }
            
         }

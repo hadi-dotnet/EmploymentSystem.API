@@ -11,10 +11,5 @@ namespace Employment.Core.Entitys
         public int ID { get; }
         public DateTime CreatedAT { get; set; }
         public DateTime UpdatedAT { get; set; }
-    
-        
-        
-
-
     }
 }

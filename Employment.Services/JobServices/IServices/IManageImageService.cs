@@ -8,7 +8,6 @@ namespace Job.Services.JobServices.Services
 {
     public interface IManageImageService
     {
-
         public void DeleteOldImage(string ID);
     }
 }

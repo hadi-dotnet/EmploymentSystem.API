@@ -28,16 +28,11 @@ namespace Job.API.Controllers
         [HttpPost("UpdateEmployee")]
         
         public async Task< IActionResult> UpdateEmployee([FromBody] EmployeeDTO updateEmployee)
-        {
-            
+        {           
             var result = await _employee.UpdateEmployee(updateEmployee);
-
             if(!result.Success)
-                return BadRequest(result.Message);
-           
-
+                return BadRequest(result.Message);          
             return Ok(result.Message);
- 
         }
 
 
@@ -51,7 +46,6 @@ namespace Job.API.Controllers
                 if (res == null)
                     return BadRequest();
                 return Ok(res);
-
             }
             else
             {
@@ -59,12 +53,11 @@ namespace Job.API.Controllers
                 if (res == null)
                     return BadRequest();
                 return Ok(res);
-            }
-          
+            }        
         }
 
         [HttpGet("FindSkill")]
-        public async Task<ActionResult<List<FindSkillsDTO>>> FindSkills (string SkillName)
+        public async Task<ActionResult<List<FindSkillsDTO>>> FindSkills ([FromQuery]string SkillName)
         {
             var SkillList = await _employee.FindSkills(SkillName);
             if (SkillList == null)
@@ -73,7 +66,7 @@ namespace Job.API.Controllers
         }
 
         [HttpPost("AddSkills")]
-        public async Task<IActionResult> AddSkills (List<AddSkillDTO> skills)
+        public async Task<IActionResult> AddSkills ([FromBody]List<AddSkillDTO> skills)
         {
             var res = await _employee.AddSkill(skills);
             if(!res.Success)
@@ -83,20 +76,16 @@ namespace Job.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("ApplySkill")]
-        public async Task<IActionResult> ApplySkill(int SkillID)
-        {
-           
+        public async Task<IActionResult> ApplySkill([FromQuery]int SkillID)
+        {           
             var result =  await _employee.Applyskill(SkillID);
-
             if(!result.Success)
                 return BadRequest(result.Message);
-
             return Ok(result.Message);
         }
         [HttpPut("UpdateSkill")]
-        public async Task<IActionResult> UpdateSkill (int SkillID, string skillName)
-        {
-           
+        public async Task<IActionResult> UpdateSkill ([FromQuery] int SkillID,[FromQuery] string skillName)
+        {         
             var result = await _employee.UpdateSkill(SkillID,skillName);
             if (!result.Success)
                 return BadRequest(result.Message);
@@ -104,14 +93,11 @@ namespace Job.API.Controllers
         }
 
         [HttpDelete("DeleteSkill")]
-        public async Task<IActionResult> DeleteSkill(int SkillID)
+        public async Task<IActionResult> DeleteSkill([FromQuery] int SkillID)
         {
-
             var result = await _employee.DeleteSkill(SkillID);
-
             if (!result.Success)
                 return BadRequest(result.Message);
-
             return Ok(result.Message);
         }
 

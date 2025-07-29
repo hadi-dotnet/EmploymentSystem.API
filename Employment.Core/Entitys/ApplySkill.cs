@@ -12,10 +12,7 @@ namespace Job.Core.Entitys
         public int ID { get; set; }
         public int SkillID { get; set; }
         public string UserID { get; set; }
-
         public Skills Skill { get; set; }
         public AppUser AppUser { get; set; }    
-
-
     }
 }

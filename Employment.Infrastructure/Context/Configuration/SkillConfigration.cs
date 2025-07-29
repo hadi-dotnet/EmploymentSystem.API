@@ -14,7 +14,6 @@ namespace Job.Infrastructure.Context.Configuration
     {
         public void Configure(EntityTypeBuilder<Skills> builder)
         {
-
             builder.HasKey(x => x.Id);
             builder.Property(x => x.EmployeeID).HasColumnType("NVARCHAR").HasMaxLength(450).IsRequired();
             builder.Property(x => x.SkillTypeID).HasColumnType("INT").IsRequired(false);

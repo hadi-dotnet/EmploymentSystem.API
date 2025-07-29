@@ -14,13 +14,12 @@ namespace Job.Infrastructure.Context.Configuration
         public void Configure(EntityTypeBuilder<ApplyJob> builder)
         {
             builder.HasKey(x => x.ID);
-          //  builder.Property(x => x.).HasColumnType("BIT").IsRequired();
             builder.Property(x => x.JobID).HasColumnType("INT").IsRequired(false);
             builder.Property(x => x.EmployeeID).HasColumnType("NVARCHAR").HasMaxLength(450).IsRequired(false);
-
             builder.HasOne(x=>x.Employee).WithMany(x=>x.ApplyJobs).HasForeignKey(x=>x.EmployeeID).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x=>x.Jobs).WithMany(x=>x.ApplyJobs).HasForeignKey(x=>x.JobID).OnDelete(DeleteBehavior.Restrict);
 
+            builder.ToTable("ApplyJob");
         }
     }
 }

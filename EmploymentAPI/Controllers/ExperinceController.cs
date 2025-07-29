@@ -22,7 +22,7 @@ namespace Job.API.Controllers
 
 
         [HttpPost("AddExperince")]
-        public async Task<ActionResult<Result>> AddExperince (ExperinceDTO experienceDTO)
+        public async Task<ActionResult<Result>> AddExperince ([FromBody] ExperinceDTO experienceDTO)
         {
             var res = await _experince.AddExperince (experienceDTO);
             if(!res.Success)
@@ -31,17 +31,17 @@ namespace Job.API.Controllers
         }
 
         [HttpPut("UpdateExperince")]
-        public async Task<ActionResult<Result>> UpdateExperince(ExperinceDTO experienceDTO,int ExperinceID)
+        public async Task<ActionResult<Result>> UpdateExperince([FromBody] ExperinceDTO experienceDTO, [FromQuery] int ExperinceID)
         {
             var res =await _experince.UpdateExperince(experienceDTO, ExperinceID);
             if (res == null)
-                return BadRequest(res.Message);
+                return BadRequest(res?.Message);
             return Ok(res.Message);
         }
 
         [HttpDelete("DeleteExperince")]
 
-        public async Task<IActionResult> DeleteExperince(int ExperinceID)
+        public async Task<IActionResult> DeleteExperince([FromQuery] int ExperinceID)
         {
             var res =await _experince.DeleteExperince(ExperinceID);
             if (!res.Success)
@@ -49,7 +49,7 @@ namespace Job.API.Controllers
             return Ok(res.Message);
         }
         [HttpPost("ApllyExperince")]
-        public async Task<IActionResult> ApllyExperince(int ExperinceID)
+        public async Task<IActionResult> ApllyExperince([FromQuery] int ExperinceID)
         {
             var res =await _experince.ApplyExperince(ExperinceID);
             if (res == null)

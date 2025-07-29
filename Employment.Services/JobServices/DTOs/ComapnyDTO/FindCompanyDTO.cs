@@ -10,6 +10,5 @@ namespace Job.Services.JobServices.DTOs.ComapnyDTO
     {
         public string? ComId { get; set; }
         public string? CompanyName { get; set; }
-
     }
 }

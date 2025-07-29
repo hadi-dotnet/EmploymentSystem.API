@@ -118,8 +118,6 @@ namespace Job.Services.Business
             await _dbContext.ApplyJob.AddAsync(ApllyJob);
             await _dbContext.SaveChangesAsync();
                 return new Result { Success=true,Message="Apply Complete"};
-
-
         }
 
         public async Task<JobResult<GetJobsDTO>?> GetJobs (int PageNumber, int PageSize)
@@ -128,9 +126,7 @@ namespace Job.Services.Business
                 return null;
 
             var Query = _dbContext.Jobs.Include(x=>x.SkillsType).Include(x=>x.Company).Where(x => x.IsActive == true).OrderByDescending(x=>x.CreatedAt);
-
             var TotalCount = await Query.CountAsync();
-
             var Jobs = await Query.Skip((PageNumber - 1) * PageSize).Take(PageSize).Select(x => new GetJobsDTO
             {
                 CompanyNmae = x.Company.Name,
@@ -152,11 +148,7 @@ namespace Job.Services.Business
                 TotalCount = TotalCount,
                 Items = Jobs,
             };
-            return Result;
-
-
-
-          
+            return Result;        
         }
 
         public async Task<JobResult<GetJobsDTO>?> GetJobBySkillType(int PageNumber, int PageSize)
@@ -164,8 +156,8 @@ namespace Job.Services.Business
             var Role = _userService.GetRole();
             if (Role != UserTypeEnum.Employee.ToString())
                 return null;
-            var EmployeeID = _userService.GetCuurentUserID();
 
+            var EmployeeID = _userService.GetCuurentUserID();
             var Jobs = await(from em in _dbContext.Employees 
                         join sk in _dbContext.Skills on em.UserID equals sk.EmployeeID
                         join jb in _dbContext.Jobs on sk.SkillTypeID equals jb.SkillsTypeID
@@ -182,7 +174,6 @@ namespace Job.Services.Business
                         }).Skip((PageNumber - 1) * PageSize).Take(PageSize).OrderByDescending(x => x.CreatedAt).Distinct().ToListAsync();
 
             var TotalCount = Jobs.Count();
-
             var Result = new JobResult<GetJobsDTO>
             {
                 PageNumber = PageNumber,
@@ -191,7 +182,6 @@ namespace Job.Services.Business
                 Items = Jobs
             };
             return Result;
-
         }
 
         public async Task<JobResult<GetApplyJobDto>?> GetApplyJobs(int PageNumber, int PageSize)
@@ -201,7 +191,6 @@ namespace Job.Services.Business
                 return null;
 
             var CompanyID = _userService.GetCuurentUserID();
-
             var ApplyJobs =await (from cm in _dbContext.Companies
                          join jb in _dbContext.Jobs on cm.UserID equals jb.CompanyID
                          join ap in _dbContext.ApplyJob on jb.ID equals ap.JobID
@@ -212,9 +201,6 @@ namespace Job.Services.Business
                              FullName = ap.Employee.FirstName + " " + ap.Employee.secoundName + " " + ap.Employee.LastName
 
                          }).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
-
-
-
 
             var res = new JobResult<GetApplyJobDto>
             {

@@ -15,14 +15,8 @@ namespace Job.Core.Entitys
         public string? UserID1 { get; set; }
         public string? UserID2 { get; set; }
         public DateTime? CreatedAT { get; set; }
-
         public AppUser? AppUser1 { get; set; } 
         public AppUser? AppUser2 { get; set; }
-
-
         public ICollection<Messages> Message { get; set; } = new List<Messages>();
-
-
-
     }
 }

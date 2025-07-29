@@ -30,8 +30,7 @@ namespace Job.Services.JobServices.DTOs.EmployeeDTO
 
     public class GetExperinceDTO
     {
-        public int ID { get; set; }
-      
+        public int ID { get; set; }     
         public string? CompanyID { get; set; }
         public string? CompanyName { get; set; }
         public string? Title { get; set; }

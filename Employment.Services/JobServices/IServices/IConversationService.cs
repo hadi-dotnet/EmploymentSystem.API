@@ -14,6 +14,5 @@ namespace Job.Services.JobServices.Services
         Task<Result> SendMessage(MessageDTO message);
         Task<List<GetMessageDTO>?> GetMessages(int ConversationID);
         Task<List<GetConversationDTO>> GetConversations();
-       
     }
 }

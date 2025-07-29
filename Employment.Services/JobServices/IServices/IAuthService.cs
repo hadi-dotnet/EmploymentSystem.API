@@ -11,9 +11,7 @@ namespace Job.Services.JobServices.Services
     public interface IAuthService
     {
         Task<Result> RegisterAsync(RegisterDto dto);
-
         Task<LoginResult> LoginAsync(LoginDTO dto);
-
     }
 
 }

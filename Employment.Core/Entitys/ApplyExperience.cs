@@ -9,12 +9,7 @@ namespace Job.Core.Entitys
     public class ApplyExperience
     {
         public int ID { get; set; }
-        public int ExperienceID { get; set;}
-      //  public bool IsExperienceApply { get; set; }   
-        public Experience Experience { get; set; }
-       // public Company Company { get; set; }    
-
-
-
+        public int ExperienceID { get; set;} 
+        public Experience? Experience { get; set; }
     }
 }

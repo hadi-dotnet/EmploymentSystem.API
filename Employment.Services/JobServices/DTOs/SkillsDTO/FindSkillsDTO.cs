@@ -10,6 +10,5 @@ namespace Job.Services.JobServices.DTOs.SkillsDTO
     {
         public int ID { get; set; }
         public string? SkillName { get; set; }
-
     }
 }

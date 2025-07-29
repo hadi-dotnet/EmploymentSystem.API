@@ -21,8 +21,6 @@ namespace Job.Services.Business
         private readonly IUserService _userservice;
         private readonly IManageImageService _imageservice;
        
-
-
         public CompanyService(AppDBContext context, IUserService userservice, IManageImageService imageservice)
         {
             _context = context;
@@ -36,7 +34,6 @@ namespace Job.Services.Business
             return string.IsNullOrWhiteSpace(value) ? null : value;
         }
         
-
         public async Task<string?> SetImage(IFormFile Image)
         {
             var UserID = _userservice.GetCuurentUserID();
@@ -65,8 +62,6 @@ namespace Job.Services.Business
             }
         }
 
-
-
         public async Task<Result> UpdateCompany(CompanyDTO companyDTO)
         {
             var UserID = _userservice.GetCuurentUserID();
@@ -83,10 +78,7 @@ namespace Job.Services.Business
 
             await _context.SaveChangesAsync();
             return new Result { Success = true, Message = "Update Complete" };
-
-
         }
-
 
         public async Task<CompanyDTO?> GetCompanyInformation()
         {
@@ -104,8 +96,6 @@ namespace Job.Services.Business
             };
 
             return companyDTO;
-
-
         }
 
         public async Task<List< FindCompanyDTO>?> FindCompany(string CompanyName)
@@ -120,7 +110,6 @@ namespace Job.Services.Business
                                     CompanyName = x.Name
                                 }).ToListAsync();
             return CompanyList;
-
         }
 
        

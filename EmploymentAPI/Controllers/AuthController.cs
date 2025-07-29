@@ -23,13 +23,10 @@ namespace EmploymentAPI.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto dto)
-        {
-            
+        {           
             var result = await _authService.RegisterAsync(dto);
-
             if (!result.Success)
                 return BadRequest(result.Errors);
-
             return Ok(new { message = result.Message });
         }
 
@@ -37,10 +34,8 @@ namespace EmploymentAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDTO dto)
         {
             var result = await _authService.LoginAsync(dto);
-
             if (!result.Success)
                 return BadRequest(result.Errors);
-
             return Ok(new { message = result.Message ,result.Token });
         }
 

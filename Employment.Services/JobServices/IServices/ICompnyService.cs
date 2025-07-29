@@ -13,10 +13,8 @@ namespace Job.Services.JobServices.Services
     public interface ICompanyService
     {
         Task<Result> UpdateCompany (CompanyDTO companyDTO);
-
         Task<CompanyDTO?> GetCompanyInformation();
         Task<List<FindCompanyDTO>?> FindCompany(string CompanyName);
         Task<string?> SetImage(IFormFile Image);
-
     }
 }

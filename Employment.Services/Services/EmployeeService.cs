@@ -41,6 +41,7 @@ namespace Job.Services.Business
         {
             return string.IsNullOrWhiteSpace(value) ? null : value;
         }
+
         private async Task<List<SkillsType>> GetSkillsChach()
         {
             return await _cache.GetOrCreateAsync("AllSkills", async entry =>
@@ -49,7 +50,6 @@ namespace Job.Services.Business
                 return await _dbContext.SkillsType.ToListAsync();
             });
         }
-
 
         public async Task<Result> UpdateEmployee(EmployeeDTO updateEmployeeDTO)
         {
@@ -72,15 +72,8 @@ namespace Job.Services.Business
             employee.UniverCity = SetORNull(updateEmployeeDTO.UniverCity);
 
             await _dbContext.SaveChangesAsync();
-
             return new Result { Success = true, Message = "updated seccessfully" };
-
-
-
         }
-
-      
-
 
         public async Task<List< FindSkillsDTO>> FindSkills(string SkillName)
         {
@@ -94,9 +87,6 @@ namespace Job.Services.Business
          
             return list;
         }
-
-
-
 
         public async Task<GetInforamtionDTO?> GetEmployeeInformation()
         {
@@ -113,7 +103,6 @@ namespace Job.Services.Business
             em.AboutYou = Employee.AboutYou;
             em.Address = Employee.Address;
             em.UniverCity = Employee.UniverCity;
-
             em.Skills = Employee.Skills.Select(skill => new SkillDTO
             {
                 SkillID = skill.Id,
@@ -133,8 +122,6 @@ namespace Job.Services.Business
             }).ToList();
 
             return em;
-
-
         }
 
         public async Task<Result> AddSkill(List< AddSkillDTO> SkillTypeIDDTO)
@@ -142,9 +129,8 @@ namespace Job.Services.Business
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
                  return new Result { Success = false, Message = "You Have No Access" };
-            var EmployeeID = _userService.GetCuurentUserID();
-            
 
+            var EmployeeID = _userService.GetCuurentUserID();
             var SkillList =await GetSkillsChach();
             foreach ( var skill in SkillTypeIDDTO )
             {
@@ -168,17 +154,12 @@ namespace Job.Services.Business
             await _dbContext.SaveChangesAsync();
 
             return new Result { Success = true, Message = "Added Completed" };
-
-
-
-        }
-
-       
+        }  
 
         public async Task<Result> Applyskill(int SkillID)
         {
             var UserID = _userService.GetCuurentUserID();
-            if (SkillID <= 0 || UserID == null)
+            if (SkillID <= 0)
                 return new Result { Success = false, Message = "Bad Requst" };
 
             var Em =await _dbContext.Skills.FirstOrDefaultAsync(x=>x.Id==SkillID);
@@ -188,14 +169,11 @@ namespace Job.Services.Business
             if(Em.EmployeeID == UserID)
                 return new Result { Success = false, Message = "You Cant Apply For Yourself" };
 
-
             var ItemOfAplly = new ApplySkill();
-
             ItemOfAplly.SkillID = SkillID;
             ItemOfAplly.UserID= UserID;
-           await _dbContext.ApplySkill.AddAsync(ItemOfAplly);
+            await _dbContext.ApplySkill.AddAsync(ItemOfAplly);
             await _dbContext.SaveChangesAsync();
-
             return new Result { Success = true, Message = "Added Seccess" };
         }
 
@@ -212,9 +190,7 @@ namespace Job.Services.Business
             var Skill =await _dbContext.Skills.FirstOrDefaultAsync(x => x.EmployeeID == UserID && x.Id == SkillID);
             if (Skill == null)
                 return new Result { Success = false, Message = "Not Found" };
-           
-
-          
+                   
             await _dbContext.SaveChangesAsync();
             return new Result { Success = true, Message = "Update Complete" };
 
@@ -235,7 +211,6 @@ namespace Job.Services.Business
             if (Skill == null)
                 return new Result { Success = false, Message = "Not Found" };
 
-
             try
             {
                 _dbContext.Skills.Remove(Skill);
@@ -250,9 +225,6 @@ namespace Job.Services.Business
             return new Result { Success = true, Message = "Delete Complete" };
 
         }
-
-        
-
 
     }
 }

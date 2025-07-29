@@ -9,8 +9,6 @@ namespace Job.Core.Entitys
 {
     public class Employees
     {
-
-       // public int id {  get; set; }
         public string? UserID {  get; set; }
         public string? FirstName {  get; set; }
         public string? secoundName {  get; set; }
@@ -18,14 +16,9 @@ namespace Job.Core.Entitys
         public string? Address {  get; set; }
         public string? AboutYou {  get; set; }
         public string? UniverCity {  get; set; }
-
         public AppUser? AppUser { get; set; }
-
         public ICollection<Skills> Skills { get; set; } = new List<Skills>();
         public ICollection<Experience> Experiences { get; set; } = new List<Experience>();
         public ICollection<ApplyJob> ApplyJobs { get; set; } = new List<ApplyJob>();
-       // public ICollection<Conversations> Conversations { get; set; } = new List<Conversations>();
-
-
     }
 }

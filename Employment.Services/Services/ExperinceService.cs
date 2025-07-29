@@ -35,9 +35,7 @@ namespace Job.Services.Business
 
             var CompanyID = "";
             var CompanyName = "";
-
             var EmID = _userService.GetCuurentUserID();
-
             var TryCopmany = await _dbContext.Companies.FirstOrDefaultAsync(x => x.UserID == experienceDTO.Company);
 
             if(TryCopmany == null)
@@ -63,7 +61,6 @@ namespace Job.Services.Business
             }
             else
                 return new Result { Success = false, Message = "ERROR Time" };
-              
 
             var NewExperince = new Experience
             { 
@@ -78,9 +75,7 @@ namespace Job.Services.Business
             };
 
             await _dbContext.Experience.AddAsync(NewExperince);
-
             await _dbContext.SaveChangesAsync();
-
             return new Result { Success = true, Message = "Added Complete" };
         }
 
@@ -91,16 +86,11 @@ namespace Job.Services.Business
                 return new Result { Success = false, Message = "You Have No Access" };
 
             var EmployeeID = _userService.GetCuurentUserID();
-
             var ex = await _dbContext.Experience.FirstOrDefaultAsync(x=>x.ID == ExperinceID&&x.EmployeeID==EmployeeID);
-
             if (ex == null)
                 return new Result { Success = false, Message = "You Have NO Access" };
-
-          
+        
             var TryCopmany = await _dbContext.Companies.FirstOrDefaultAsync(x => x.UserID == experienceDTO.Company);
-
-
             if (TryCopmany == null)
             {
                 ex.CompanyName = experienceDTO.Company;
@@ -124,7 +114,6 @@ namespace Job.Services.Business
             }
             else
                 return new Result { Success = false, Message = "ERROR Time" };
-
 
             ex.StartAT = experienceDTO.StartAT;
             ex.Description = experienceDTO.Description;

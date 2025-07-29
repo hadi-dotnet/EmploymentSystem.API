@@ -16,12 +16,10 @@ namespace Employment.Infrastructure.Context
 {
     public class AppDBContext:IdentityDbContext<AppUser>
     {
-
         public DbSet<Jobs> Posts {  get; set; }
-       
+      
         public DbSet<Company> Companies { get; set; }
         public DbSet<Employees> Employees { get; set; }
-
         public DbSet<ApplyExperience> ApplyExperience { get; set; }
         public DbSet<ApplyJob> ApplyJob { get; set; }
         public DbSet<ApplySkill> ApplySkill { get; set; }
@@ -42,9 +40,7 @@ namespace Employment.Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.ApplyConfigurationsFromAssembly(typeof(AppDBContext).Assembly);
-
         }
       
     }

@@ -12,18 +12,18 @@ namespace Job.Services.JobServices.DTOs.AuthDTO
     {
         [Required]
         public string? UserName { get; set; }
-        [Required]
 
+        [Required]
         public string? Email { get; set; }
-        [Required]
 
+        [Required]
         public string? Password { get; set; }
-        [Required]
 
+        [Required]
         [Compare(nameof(Password))]
         public string ConfirmPassword { get; set; } = null!;
-        [Required]
 
+        [Required]
         public UserTypeEnum UserType { get; set; }
     }
 }

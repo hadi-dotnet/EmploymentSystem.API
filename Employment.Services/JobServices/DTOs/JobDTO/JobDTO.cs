@@ -10,23 +10,23 @@ namespace Job.Services.JobServices.DTOs.JobDTO
   
     public class JobDTO
     {
-
         [Required]
         [MaxLength(500, ErrorMessage = "Content must be 500 characters or less.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Content must contain letters and spaces only.")]
         public string? Content { get; set; }
-        [Required]
 
+        [Required]
         [MaxLength(50, ErrorMessage = "Title must be 50 characters or less.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Title must contain letters and spaces only.")]
         public string? Title { get; set; }
+
         [Required]
         public int? SkillTypeID { get; set; }
+
         [Required]
         public bool FullTimeORPartTime { get; set; }
+
         [Required]
         public bool RemoteOROnSite { get; set; }
-    
-
     }
 }

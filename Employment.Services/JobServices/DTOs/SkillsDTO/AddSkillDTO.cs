@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 namespace Job.Services.JobServices.DTOs.SkillsDTO
 {
     public class AddSkillDTO
-    {
-
-     
+    {   
         public int? SkillTypeID { get; set; }
-
     }
 }

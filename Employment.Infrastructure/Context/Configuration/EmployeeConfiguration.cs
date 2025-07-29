@@ -20,16 +20,9 @@ namespace Job.Infrastructure.Context.Configuration
             builder.Property(x => x.Address).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired(false);
             builder.Property(x => x.AboutYou).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired(false);
             builder.Property(x => x.UniverCity).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired(false);
-   
-
-
             builder.HasOne(x=>x.AppUser).WithOne(x=>x.Employees).HasForeignKey<Employees>(x=>x.UserID);
             
-
-
             builder.ToTable("Employees");
-
-
         }
     }
 }

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 namespace Job.Services.JobServices.DTOs.ConversationsDTO
 {
     public class GetMessageDTO
-    {
-
-     
+    { 
         public string? Message { get; set; }
         public DateTime? SendAT { get; set; }
-
     }
 }

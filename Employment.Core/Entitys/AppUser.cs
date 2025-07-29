@@ -22,16 +22,11 @@ namespace Employment.Infrastructure.Entitys
     public class AppUser : IdentityUser
     {
         public UserTypeEnum UserType { get; set; }
-
-        public Company Company { get; set; }
-        public Employees Employees { get; set; }
-
-        public string? PasswordResetCode { get; set; }
-
-        
+        public Company? Company { get; set; }
+        public Employees? Employees { get; set; }
+        public string? PasswordResetCode { get; set; }      
         public DateTime? PasswordResetExpiration { get; set; }
         public ICollection< Messages> Messages { get; set; } = new List< Messages>();
-
         public ICollection<ApplySkill> ApplySkill { get; set; } = new List<ApplySkill>();
         public ICollection<Conversations> Conversations2 { get; set; } = new List<Conversations>();
         public ICollection<Conversations> Conversations1 { get; set; } = new List<Conversations>();

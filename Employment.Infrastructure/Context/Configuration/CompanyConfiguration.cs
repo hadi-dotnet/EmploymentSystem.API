@@ -21,8 +21,6 @@ namespace Job.Infrastructure.Context.Configuration
             builder.HasOne(x => x.AppUser).WithOne(x => x.Company).HasForeignKey<Company>(x => x.UserID);
            
             builder.ToTable("Companys");
-
-
         }
     }
 }

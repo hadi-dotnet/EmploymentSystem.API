@@ -15,13 +15,9 @@ namespace Job.Infrastructure.Context.Configuration
         public void Configure(EntityTypeBuilder<ApplyExperience> builder)
         {
             builder.HasKey(x => x.ID);
-           // builder.Property(x => x.IsExperienceApply).HasColumnType("BIT").IsRequired();
             builder.Property(x => x.ExperienceID).HasColumnType("int").IsRequired();
-           // builder.Property(x => x.CompanyID).HasColumnType("NVARCHAR").HasMaxLength(450).IsRequired(false);
-           // builder.Property(x => x.CompanyName).HasColumnType("NVARCHAR").HasMaxLength(50).IsRequired(false) ;
-
             builder.HasOne(x => x.Experience).WithMany(x => x.ApplyExperience).HasForeignKey(x => x.ExperienceID);
-           // builder.HasOne(x => x.Company).WithMany(x => x.ApplyExperience).HasForeignKey(x => x.CompanyID);
+          
             builder.ToTable("ApplyExperience");
         }
     }

@@ -40,7 +40,7 @@ namespace Job.Services.Business
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                 new Claim(ClaimTypes.Role, user.UserType.ToString()), 
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-    };
+            };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)); 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -56,8 +56,6 @@ namespace Job.Services.Business
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-
-
         public async Task<Result> RegisterAsync(RegisterDto dto)
         {
             var user = new AppUser
@@ -68,7 +66,6 @@ namespace Job.Services.Business
             };
 
             var result = await _userManager.CreateAsync(user, dto.Password);
-
             if (!result.Succeeded)
             {
                 return new Result
@@ -109,8 +106,7 @@ namespace Job.Services.Business
 
 
         public async Task<LoginResult> LoginAsync(LoginDTO dto)
-        {
-           
+        {          
             var user = await _userManager.FindByNameAsync(dto.UserNameOrEmail)
                        ?? await _userManager.FindByEmailAsync(dto.UserNameOrEmail);
 
@@ -118,15 +114,13 @@ namespace Job.Services.Business
             {
                 return new LoginResult { Success = false, Errors = new List<string> { "Invalid username or password." } };
             }
-
-           
+          
             var passwordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
             if (!passwordValid)
             {
                 return new LoginResult { Success = false, Errors = new List<string> { "Invalid username or password." } };
             }
-
-           
+          
             var token = GenerateJwtToken(user);
 
             return new LoginResult

@@ -10,10 +10,8 @@ namespace Job.Core.Entitys
     {
         public int id {  get; set; }
         public string? TypeName{  get; set; }
-
-        public ICollection<Skills> skills { get; set; }
-
-        public ICollection<Jobs> Jobs { get; set; }
+        public ICollection<Skills> skills { get; set; } =new List<Skills>();
+        public ICollection<Jobs> Jobs { get; set; } = new List<Jobs>();
 
     }
 }

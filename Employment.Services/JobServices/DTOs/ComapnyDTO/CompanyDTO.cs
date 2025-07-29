@@ -14,9 +14,11 @@ namespace Job.Services.JobServices.DTOs.ComapnyDTO
         [MaxLength(50, ErrorMessage = " name must be 50 characters or less.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name must contain letters and spaces only.")]
         public string? Name { get; set; }
+
         [MaxLength(50, ErrorMessage = "Address must be 50 characters or less.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Address must contain letters and spaces only.")]
         public string? Address { get; set; }
+
         [MaxLength(500, ErrorMessage = "About must be 500 characters or less.")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "About must contain letters and spaces only.")]
         public string? About { get; set; }

@@ -8,10 +8,7 @@ namespace Job.Services.JobServices.DTOs.ConversationsDTO
 {
     public class MessageDTO
     {
-        public int ConversationId { get; set; }
-   
-        public string? MassageText { get; set; }
-        
-
+        public int ConversationId { get; set; }   
+        public string? MassageText { get; set; }       
     }
 }

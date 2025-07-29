@@ -23,7 +23,6 @@ namespace Job.Infrastructure.Context.Configuration
             builder.HasOne(x=>x.Conversation).WithMany(x=>x.Message).HasForeignKey(x=>x.ConversationId).OnDelete(DeleteBehavior.Restrict);
 
             builder.ToTable("Messages");
-
         }
     }
 }

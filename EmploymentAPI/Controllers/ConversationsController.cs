@@ -16,7 +16,7 @@ namespace Job.API.Controllers
         }
 
         [HttpPost("CreateConversation")]
-        public async Task<IActionResult> CreateConversation(string UserID)
+        public async Task<IActionResult> CreateConversation([FromQuery]string UserID)
         {
             var res =await _conversationService.CreateConversation(UserID);
             if (res == null)
@@ -25,7 +25,7 @@ namespace Job.API.Controllers
         }
 
         [HttpPost("SendMessage")]
-        public async Task<IActionResult> SendMessage(MessageDTO message)
+        public async Task<IActionResult> SendMessage([FromBody]MessageDTO message)
         {
             var res = await _conversationService.SendMessage(message);
             if (res == null)
@@ -34,7 +34,7 @@ namespace Job.API.Controllers
         }
 
         [HttpPost("GetMessage")]
-        public async Task<IActionResult> GetMessage(int ConvID)
+        public async Task<IActionResult> GetMessage([FromQuery] int ConvID)
         {
             var res = await _conversationService.GetMessages(ConvID);
             if (res == null)

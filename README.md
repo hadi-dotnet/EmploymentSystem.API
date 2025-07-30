@@ -24,12 +24,9 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 - ASP.NET Core Web API (.NET 7+)
 - Entity Framework Core
 - SQL Server
-- AutoMapper
 - JWT Authentication
 - LINQ & Filtering
-- CORS Configuration
-- Repository Pattern
-
+- Service Layer Pattern for clean architecture
 ---
 
 ## 🚀 Getting Started

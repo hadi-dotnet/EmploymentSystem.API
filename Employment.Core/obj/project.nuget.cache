@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "M1zA3X5UpEk2j2m7MNBsb9MDBlQKFalRCzqCkeWQReGTiFYZe0guKR8GwocCxT57+nxF4zxN/819cHNbkEFmRQ==",
+  "dgSpecHash": "38ALwUctcP+KderZX5WDSCbR95RQWeevI4ij1fZtpQ5nu3PF7H3UAuWPoIYxRwNH2wQigvynarAxrHh/94niig==",
   "success": true,
-  "projectFilePath": "C:\\Users\\المجرة\\source\\repos\\Employment.Core\\Job.Core.csproj",
+  "projectFilePath": "C:\\EmployementSystemAPI\\Employment.Core\\Job.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\المجرة\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.10\\microsoft.aspnetcore.cryptography.internal.6.0.10.nupkg.sha512",
     "C:\\Users\\المجرة\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.10\\microsoft.aspnetcore.cryptography.keyderivation.6.0.10.nupkg.sha512",

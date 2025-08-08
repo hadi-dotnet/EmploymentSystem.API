@@ -32,27 +32,27 @@ namespace Job.Services.Business
 
             var IsConvrsationExest = await _dbContext.Conversations.SingleOrDefaultAsync(x => (x.UserID1 == UserID1 && x.UserID2 == UserID2) || (x.UserID1 == UserID2 && x.UserID2 == UserID1));
             if (IsConvrsationExest != null)
-                return new Result { Success = false, Message = "The Convrsation Is Already Exest" };
+                return Result.Fail("The Convrsation Is Already Exest");
 
             var Convrsation = new Conversations { UserID1 = UserID1, UserID2 = UserID2, CreatedAT = DateTime.Now };
             await _dbContext.Conversations.AddAsync(Convrsation);
             await _dbContext.SaveChangesAsync();
 
-            return new Result { Success = true, Message = "Convrsation Created Complete" };
+            return Result.SuccessResult("Convrsation Created Complete");
         }
 
         public async Task<Result> SendMessage(MessageDTO message)
         {
             var CurrentUserID = _userService.GetCuurentUserID();
-            var IsConExest = await _dbContext.Conversations.FirstOrDefaultAsync(x => x.ID == message.ConversationId);
-            if (IsConExest == null)
-                return new Result { Success = false, Message = "The Conversation Is Not Exest" };
+            var Conver = await _dbContext.Conversations.FirstOrDefaultAsync(x => x.ID == message.ConversationId);
+            if (Conver == null)
+                return Result.Fail("The Conversation Is Not Exest");
 
-            if (IsConExest.UserID1 == CurrentUserID || IsConExest.UserID2 == CurrentUserID)
+            if (Conver.UserID1 == CurrentUserID || Conver.UserID2 == CurrentUserID)
             {
                 var Message = new Messages
                 {
-                    ConversationId = IsConExest.ID,
+                    ConversationId = Conver.ID,
                     MassageText = message.MassageText,
                     SenderBy = CurrentUserID,
                     SendAT = DateTime.Now,
@@ -62,13 +62,13 @@ namespace Job.Services.Business
                 await _dbContext.Messages.AddAsync(Message);
                 await _dbContext.SaveChangesAsync();
 
-                return new Result { Success = true, Message = "The message has been sent" };
+                return Result.SuccessResult("The message has been sent");
             }
 
-            return new Result { Success = false, Message = "You Have No Access IN This Conversation" };
+            return Result.Fail("You Have No Access IN This Conversation");
         }
 
-        public async Task<List< GetConversationDTO>> GetConversations()
+        public async Task<Result< List< GetConversationDTO>>> GetConversations()
         {
             var userID = _userService.GetCuurentUserID();
 
@@ -97,22 +97,21 @@ namespace Job.Services.Business
                         "Not Found"
                 })
                 .ToListAsync();
-            return conversations;        
+            return Result<List<GetConversationDTO>>.SuccessResult(conversations,"Success");        
         }
 
 
 
-        public async Task<List< GetMessageDTO>?> GetMessages (int ConversationID)
+        public async Task<Result<List<GetMessageDTO>?>> GetMessages (int ConversationID)
         {
             var UserID = _userService.GetCuurentUserID();       
-            var IsUserAccess = await _dbContext.Conversations.FirstOrDefaultAsync(x => x.ID == ConversationID
-            && (x.UserID1 == UserID || x.UserID2 == UserID));
-            if (IsUserAccess == null)
-                return null;
-            var Message = await _dbContext.Messages.Where(x => x.ConversationId == ConversationID).ToListAsync();
 
-           var GetMessage = Message.Select(x => new GetMessageDTO { Message = x.MassageText, SendAT = x.SendAT }).ToList();
-            return GetMessage;
+            var Message = await _dbContext.Messages.Where(x => x.ConversationId == ConversationID 
+                        && (x.Conversation.UserID1 == UserID || x.Conversation.UserID2 == UserID))
+                       .Select(x => new GetMessageDTO { Message = x.MassageText, SendAT = x.SendAT }).ToListAsync();
+            if(Message.Count == 0)
+                return Result<List<GetMessageDTO>?>.Fail("There Is No Message");
+            return Result<List<GetMessageDTO>?>.SuccessResult(Message, "Success");
 
         }
     }

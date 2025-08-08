@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3XdEOssQ22UNhZBrIhgcEDTFdFqXQo7KvS/3dZfBsSkQkxX4lSucmUaIElWsgCP6OFVWqLS/tvppfa4QUZIh6w==",
+  "dgSpecHash": "o2fGBVIWoXvu33L9BY7GZnt1+01Ffn/NZroJHEvgYlvSurS0q6p78aim7nMYC2O3PYG38ba7aTNi27dKhxKInQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\المجرة\\source\\repos\\EmploymentAPI\\Job.API.csproj",
+  "projectFilePath": "C:\\EmployementSystemAPI\\EmploymentAPI\\Job.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\المجرة\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\المجرة\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.10\\microsoft.aspnetcore.authentication.jwtbearer.6.0.10.nupkg.sha512",

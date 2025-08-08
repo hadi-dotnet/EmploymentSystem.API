@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "j0iwf/eFVVYKEz7Ep09NeLQGh8/NI1OklRjRr+GOZVTjXP97ruka4bngJVggAd3LUxp1eIeKpdNqCWhIkAemuA==",
+  "dgSpecHash": "VBZTgNMbb9/R8RIvZ40GAIa/jn12MinqUUIrZjdSeBbttEop9l/75ayOUtkvzkjDi7Vz00/5fxwpdMfQhH2UyQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\المجرة\\source\\repos\\Employment.Infrastructure\\Job.Infrastructure.csproj",
+  "projectFilePath": "C:\\EmployementSystemAPI\\Employment.Infrastructure\\Job.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\المجرة\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\المجرة\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.10\\microsoft.aspnetcore.cryptography.internal.6.0.10.nupkg.sha512",

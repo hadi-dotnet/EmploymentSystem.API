@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Job.Services.JobServices.Results
 {
-    public class Result<T>
+    public class ApiResponse<T>
     {
         public bool Success { get; set; }
         public string? Message { get; set; }
-        public T? Data { get; set; } 
+        public T? Data { get; set; }
 
-        public static Result<T> SuccessResult(T data, string? message = null)
+        public static ApiResponse<T> SuccessResponse(T? data, string? message = null)
         {
-            return new Result<T>
+            return new ApiResponse<T>
             {
                 Success = true,
                 Message = message,
@@ -22,9 +22,9 @@ namespace Job.Services.JobServices.Results
             };
         }
 
-        public static Result<T> Fail(string message)
+        public static ApiResponse<T> ErrorResponse(string? message)
         {
-            return new Result<T>
+            return new ApiResponse<T>
             {
                 Success = false,
                 Message = message,
@@ -33,30 +33,28 @@ namespace Job.Services.JobServices.Results
         }
     }
 
-
-    public class Result
+    public class ApiResponse
     {
         public bool Success { get; set; }
         public string? Message { get; set; }
-    
-        public static Result SuccessResult(string? message = null)
+      
+        public static ApiResponse SuccessResponse(string? message)
         {
-            return new Result
+            return new ApiResponse
             {
                 Success = true,
-                Message = message,
-              
+                Message = message,           
             };
         }
 
-        public static Result Fail(string? message)
+        public static ApiResponse ErrorResponse(string? message)
         {
-            return new Result
+            return new ApiResponse
             {
                 Success = false,
-                Message = message,
-               
+                Message = message,              
             };
         }
     }
+
 }

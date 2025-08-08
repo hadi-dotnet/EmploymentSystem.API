@@ -25,9 +25,9 @@ namespace Job.API.Controllers
             var res = await _jobService.AddJob(jobDTO);
             if(!res.Success)
             {
-                return BadRequest(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
             }
-            return Ok(res.Message);
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [HttpPut("UpdateJob")]
         public async Task<IActionResult> UpdateJob([FromBody]UpdateJobDTO jobDTO)
@@ -35,33 +35,33 @@ namespace Job.API.Controllers
             var res = await _jobService.UpdateJob(jobDTO);
             if (!res.Success)
             {
-                return BadRequest(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
             }
-            return Ok(res.Message);
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [HttpDelete("DeleteJob")]
         public async Task<IActionResult> DeleteJob([FromQuery] int JobID)
         {
             var res = await _jobService.DeleteJob(JobID);
             if(!res.Success)
-                return BadRequest(res.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [HttpPost("ApplyJob")]
         public async Task<IActionResult> ApplyJob([FromQuery] int JobID)
         {
             var res = await _jobService.ApplyJob(JobID);
             if (!res.Success)
-                return BadRequest(res.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [HttpGet("GetJobs")]
         public async Task<IActionResult> GetJobs ([FromQuery] int PageNumber, [FromQuery] int PageSize)
         {
             var res =await _jobService.GetJobs(PageNumber, PageSize);
-            if (res == null)
-                return BadRequest();
-            return Ok(res);
+            if (!res.Success)
+                return BadRequest(ApiResponse<PageResult<GetJobsDTO>>.ErrorResponse(res.Message));
+            return Ok(ApiResponse<PageResult<GetJobsDTO>>.SuccessResponse( res.Data,res.Message));
 
         }
         [HttpGet("GetJobBySkillType")]
@@ -69,8 +69,8 @@ namespace Job.API.Controllers
         {
             var res = await _jobService.GetJobBySkillType(PageNumber, PageSize);
             if (res == null)
-                return BadRequest();
-            return Ok(res);
+                return BadRequest(ApiResponse<PageResult<GetJobsDTO>>.ErrorResponse(res?.Message));
+            return Ok(ApiResponse<PageResult<GetJobsDTO>>.SuccessResponse(res.Data,res.Message));
         }
 
         [HttpGet("GetApplyJobs")]
@@ -78,8 +78,8 @@ namespace Job.API.Controllers
         {
             var res = await _jobService.GetApplyJobs(PageNumber, PageSize);
             if (res == null)
-                return BadRequest();
-            return Ok(res);
+                return BadRequest(ApiResponse<PageResult<GetApplyJobDto>>.ErrorResponse(res?.Message));
+            return Ok(ApiResponse<PageResult<GetApplyJobDto>>.ErrorResponse(res?.Message));
         }
     }
 }

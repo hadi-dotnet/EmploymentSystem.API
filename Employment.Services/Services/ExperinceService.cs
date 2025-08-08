@@ -31,7 +31,7 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var CompanyID = "";
             var CompanyName = "";
@@ -60,7 +60,7 @@ namespace Job.Services.Business
 
             }
             else
-                return new Result { Success = false, Message = "ERROR Time" };
+                return Result.Fail("Time error.. End time is less than the end time");
 
             var NewExperince = new Experience
             { 
@@ -71,25 +71,24 @@ namespace Job.Services.Business
                 Description = experienceDTO.Description,
                 StartAT = experienceDTO.StartAT,
                 FinishAT = FinishAT,
-
             };
 
             await _dbContext.Experience.AddAsync(NewExperince);
             await _dbContext.SaveChangesAsync();
-            return new Result { Success = true, Message = "Added Complete" };
+            return Result.SuccessResult("Added complate");
         }
 
         public async Task<Result> UpdateExperince(ExperinceDTO experienceDTO,int ExperinceID)
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var EmployeeID = _userService.GetCuurentUserID();
             var ex = await _dbContext.Experience.FirstOrDefaultAsync(x=>x.ID == ExperinceID&&x.EmployeeID==EmployeeID);
             if (ex == null)
-                return new Result { Success = false, Message = "You Have NO Access" };
-        
+                return Result.Fail("You Have No access");
+
             var TryCopmany = await _dbContext.Companies.FirstOrDefaultAsync(x => x.UserID == experienceDTO.Company);
             if (TryCopmany == null)
             {
@@ -113,7 +112,7 @@ namespace Job.Services.Business
 
             }
             else
-                return new Result { Success = false, Message = "ERROR Time" };
+                return Result.Fail("Time error.. End time is less than the end time");
 
             ex.StartAT = experienceDTO.StartAT;
             ex.Description = experienceDTO.Description;
@@ -121,25 +120,28 @@ namespace Job.Services.Business
             ex.FinishAT = experienceDTO.FinishAT;
 
             await _dbContext.SaveChangesAsync();
-            return new Result { Success = true, Message = "Updated Complete" };
+            return Result.SuccessResult("Updated Success");
         }
 
         public async Task<Result> DeleteExperince(int ExperinceID)
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success = false, Message = "You Have NO Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var Emid = _userService.GetCuurentUserID();
 
-            var Experince =await _dbContext.Experience.FirstOrDefaultAsync(x=>x.ID == ExperinceID&&x.EmployeeID == Emid);
-            if(Experince == null)
-                return new Result { Success = false, Message = "You Have NO Access OR NotFound" };
+            var Exper = await _dbContext.Experience.FirstOrDefaultAsync(x => x.ID == ExperinceID);
+            if (Exper == null)
+                return Result.Fail("Experience Not Found");
 
-            _dbContext.Remove(Experince);
+            if (Exper.EmployeeID != Emid)
+                return Result.Fail("You Have No Access");
+
+            _dbContext.Remove(Exper);
             await _dbContext.SaveChangesAsync();
 
-            return new Result { Success = false, Message = "Deleted Complete" };
+            return Result.SuccessResult("Deleted Complete");
 
         }
 
@@ -148,24 +150,23 @@ namespace Job.Services.Business
             
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Company.ToString())
-                return new Result { Success = false, Message = "You Have NO Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var CompanyID = _userService.GetCuurentUserID();
+            var res =await _dbContext.Experience.FirstOrDefaultAsync(x=>x.ID==ExperinceID);
+            if (res == null)
+                return Result.Fail("Experience Not Found");
 
-            var res =await _dbContext.Experience.FirstOrDefaultAsync(x=>x.ID==ExperinceID&&x.CompanyID == CompanyID);
-
-            if(res==null)
-                return new Result { Success = false, Message = "You Have NO Access OR NotFound" };
+            if (res.CompanyID != CompanyID)
+                return Result.Fail("You Have No Access");
 
             var AddAplly = new ApplyExperience();
-
             AddAplly.ExperienceID = ExperinceID;
 
            await _dbContext.ApplyExperience.AddAsync(AddAplly);
-
             await _dbContext.SaveChangesAsync();
 
-            return new Result { Success = true, Message = "Apply Complete" };
+            return Result.SuccessResult("Apply Compalete");
 
 
         }

@@ -2,6 +2,7 @@
 using Employment.Infrastructure.Entitys;
 using Job.Core.Entitys;
 using Job.Services.JobServices.DTOs.AuthDTO;
+using Job.Services.JobServices.Results;
 using Job.Services.JobServices.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -26,8 +27,8 @@ namespace EmploymentAPI.Controllers
         {           
             var result = await _authService.RegisterAsync(dto);
             if (!result.Success)
-                return BadRequest(result.Errors);
-            return Ok(new { message = result.Message });
+                return BadRequest(ApiResponse.ErrorResponse(result.Message));
+            return Ok(ApiResponse.SuccessResponse(result.Message));
         }
 
         [HttpPost("Login")]
@@ -35,7 +36,7 @@ namespace EmploymentAPI.Controllers
         {
             var result = await _authService.LoginAsync(dto);
             if (!result.Success)
-                return BadRequest(result.Errors);
+                return BadRequest(result.Message);
             return Ok(new { message = result.Message ,result.Token });
         }
 

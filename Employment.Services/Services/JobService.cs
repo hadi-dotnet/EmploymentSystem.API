@@ -28,14 +28,14 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Company.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
             var CompanyID = _userService.GetCuurentUserID();
 
             var Jobtype =await _dbContext.SkillsType.FirstOrDefaultAsync(x=>x.id==jobDTO.SkillTypeID);
-            if(Jobtype == null)
-                return new Result { Success = false, Message = $"Bad Requst In Job Type .. Job Type = {jobDTO.SkillTypeID}" };
+            if (Jobtype == null)
+                return Result.Fail($"Bad Requst In Job Type .. Job Type = {jobDTO.SkillTypeID}");
 
-
+            
 
             var JobEntity = new Jobs
             {
@@ -55,7 +55,7 @@ namespace Job.Services.Business
             await _dbContext.Jobs.AddAsync(JobEntity);
             await _dbContext.SaveChangesAsync();
 
-            return new Result { Success = true, Message = "Added Complete" };
+            return Result.SuccessResult("Added Complete");
 
         }
 
@@ -63,11 +63,12 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Company.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
             var CompanyID = _userService.GetCuurentUserID();
 
             var Job = await _dbContext.Jobs.FirstOrDefaultAsync(x => x.ID == jobDTO.JobID && x.CompanyID == CompanyID);
-            if (Job == null) return new Result { Success = false, Message = "You Have No Access" };
+            if (Job == null)
+                return Result.Fail("You Have No Access");
 
             Job.Title = jobDTO.Title;
             Job.RemoteOROnSite = jobDTO.RemoteOROnSite;
@@ -78,7 +79,7 @@ namespace Job.Services.Business
            
 
             await _dbContext.SaveChangesAsync();
-            return new Result { Success = true, Message = "updated Complete" };
+            return Result.SuccessResult("updated Complete");
 
         }
 
@@ -86,15 +87,15 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Company.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
             var CompanyID = _userService.GetCuurentUserID();
 
             var Job =await _dbContext.Jobs.FirstOrDefaultAsync(x=>x.ID== JobID && x.CompanyID==CompanyID);
-            if (Job == null) return new Result { Success = false, Message = "You Have No Access" };
+            if (Job == null) return Result.Fail("You Have No Access");
 
             _dbContext.Jobs.Remove(Job);
             await _dbContext.SaveChangesAsync();
-             return new Result { Success = true, Message = "Delete Complete" };
+             return Result.SuccessResult("Deleted Complete");
 
 
         }
@@ -103,33 +104,33 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
             var EmployeeID = _userService.GetCuurentUserID();
 
             var IsJobExest =await _dbContext.Jobs.FirstOrDefaultAsync(x => x.ID == JobID);
             if (IsJobExest == null)
-                return new Result { Success = false, Message = "Not Found" };
+                return Result.Fail("Not Found");
 
             var IsEmployeeApply = await _dbContext.ApplyJob.FirstOrDefaultAsync(x => x.EmployeeID == EmployeeID&&x.JobID==JobID);
             if (IsEmployeeApply != null)
-                return new Result { Success = false, Message = "You Already Apply" };
+                return Result.Fail("You Already Apply");
 
             var ApllyJob = new ApplyJob { EmployeeID = EmployeeID,JobID = JobID };
             await _dbContext.ApplyJob.AddAsync(ApllyJob);
             await _dbContext.SaveChangesAsync();
-                return new Result { Success=true,Message="Apply Complete"};
+                return Result.SuccessResult("Apply Complete");
         }
 
-        public async Task<JobResult<GetJobsDTO>?> GetJobs (int PageNumber, int PageSize)
+        public async Task<Result< PageResult<GetJobsDTO>?>> GetJobs (int PageNumber, int PageSize)
         {
             if (PageNumber <= 0 || PageSize <= 0)
-                return null;
+                return Result<PageResult<GetJobsDTO>?>.Fail("Invalid page number or size");
 
             var Query = _dbContext.Jobs.Include(x=>x.SkillsType).Include(x=>x.Company).Where(x => x.IsActive == true).OrderByDescending(x=>x.CreatedAt);
             var TotalCount = await Query.CountAsync();
             var Jobs = await Query.Skip((PageNumber - 1) * PageSize).Take(PageSize).Select(x => new GetJobsDTO
             {
-                CompanyNmae = x.Company.Name,
+                CompanyName = x.Company.Name,
                 CompanyID = x.CompanyID,
                 Content = x.Content,
                 CreatedAt = x.CreatedAt,
@@ -141,21 +142,21 @@ namespace Job.Services.Business
 
             }).ToListAsync() ;
 
-            var Result = new JobResult<GetJobsDTO>
+            var res = new PageResult<GetJobsDTO>
             {
                 PageNumber = PageNumber,
                 PageSize = PageSize,
                 TotalCount = TotalCount,
                 Items = Jobs,
             };
-            return Result;        
+            return Result<PageResult<GetJobsDTO>?>.SuccessResult(res,"success");        
         }
 
-        public async Task<JobResult<GetJobsDTO>?> GetJobBySkillType(int PageNumber, int PageSize)
+        public async Task<Result< PageResult<GetJobsDTO>?>> GetJobBySkillType(int PageNumber, int PageSize)
         {
             var Role = _userService.GetRole();
             if (Role != UserTypeEnum.Employee.ToString())
-                return null;
+                return Result<PageResult<GetJobsDTO>?>.Fail("User Type Error .. You Have No access");
 
             var EmployeeID = _userService.GetCuurentUserID();
             var Jobs = await(from em in _dbContext.Employees 
@@ -174,21 +175,21 @@ namespace Job.Services.Business
                         }).Skip((PageNumber - 1) * PageSize).Take(PageSize).OrderByDescending(x => x.CreatedAt).Distinct().ToListAsync();
 
             var TotalCount = Jobs.Count();
-            var Result = new JobResult<GetJobsDTO>
+            var res = new PageResult<GetJobsDTO>
             {
                 PageNumber = PageNumber,
                 PageSize = PageSize,
                 TotalCount = TotalCount,
                 Items = Jobs
             };
-            return Result;
+            return Result<PageResult<GetJobsDTO>?>.SuccessResult(res,"Success");
         }
 
-        public async Task<JobResult<GetApplyJobDto>?> GetApplyJobs(int PageNumber, int PageSize)
+        public async Task<Result< PageResult<GetApplyJobDto>?>> GetApplyJobs(int PageNumber, int PageSize)
         {
             var Role = _userService.GetRole();
             if (Role != UserTypeEnum.Company.ToString())
-                return null;
+                return Result<PageResult<GetApplyJobDto>?>.Fail("User Type Error .. You Have No access");
 
             var CompanyID = _userService.GetCuurentUserID();
             var ApplyJobs =await (from cm in _dbContext.Companies
@@ -202,7 +203,7 @@ namespace Job.Services.Business
 
                          }).Skip((PageNumber - 1) * PageSize).Take(PageSize).ToListAsync();
 
-            var res = new JobResult<GetApplyJobDto>
+            var res = new PageResult<GetApplyJobDto>
             {
                 TotalCount = ApplyJobs.Count(),
                 PageSize = PageSize,
@@ -210,7 +211,7 @@ namespace Job.Services.Business
                 Items = ApplyJobs
 
             };
-            return res;
+            return Result<PageResult<GetApplyJobDto>?>.SuccessResult(res,"Success");
 
         }
 

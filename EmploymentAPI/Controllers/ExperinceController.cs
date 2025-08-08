@@ -22,21 +22,21 @@ namespace Job.API.Controllers
 
 
         [HttpPost("AddExperince")]
-        public async Task<ActionResult<Result>> AddExperince ([FromBody] ExperinceDTO experienceDTO)
+        public async Task<IActionResult> AddExperince ([FromBody] ExperinceDTO experienceDTO)
         {
             var res = await _experince.AddExperince (experienceDTO);
             if(!res.Success)
-                return BadRequest(res.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
         [HttpPut("UpdateExperince")]
-        public async Task<ActionResult<Result>> UpdateExperince([FromBody] ExperinceDTO experienceDTO, [FromQuery] int ExperinceID)
+        public async Task<IActionResult> UpdateExperince([FromBody] ExperinceDTO experienceDTO, [FromQuery] int ExperinceID)
         {
             var res =await _experince.UpdateExperince(experienceDTO, ExperinceID);
             if (res == null)
-                return BadRequest(res?.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res?.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
         [HttpDelete("DeleteExperince")]
@@ -45,16 +45,16 @@ namespace Job.API.Controllers
         {
             var res =await _experince.DeleteExperince(ExperinceID);
             if (!res.Success)
-                return BadRequest(res.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [HttpPost("ApllyExperince")]
         public async Task<IActionResult> ApllyExperince([FromQuery] int ExperinceID)
         {
             var res =await _experince.ApplyExperince(ExperinceID);
             if (res == null)
-                return BadRequest(res?.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res?.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
 

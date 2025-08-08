@@ -1,4 +1,5 @@
-﻿using Job.Services.JobServices.DTOs.ComapnyDTO;
+﻿using Job.API.Dtos;
+using Job.Services.JobServices.DTOs.ComapnyDTO;
 using Job.Services.JobServices.Results;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -12,9 +13,9 @@ namespace Job.Services.JobServices.Services
 {
     public interface ICompanyService
     {
-        Task<Result> UpdateCompany (CompanyDTO companyDTO);
-        Task<CompanyDTO?> GetCompanyInformation();
-        Task<List<FindCompanyDTO>?> FindCompany(string CompanyName);
-        Task<string?> SetImage(IFormFile Image);
+        Task<Result> UpdateCompany (UpdateCompanyDTO companyDTO);
+        Task<Result<CompanyDTO?>> GetCompanyInformation();
+        Task<Result< List<FindCompanyDTO>?>> FindCompany(string CompanyName);
+       // Task<string?> SetImage(IFormFile Image);
     }
 }

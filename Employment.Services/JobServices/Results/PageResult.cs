@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Job.Services.JobServices.Results
 {
-    public class JobResult<T>
+    public class PageResult<T>
     {
         public int TotalCount { get; set; }    
         public int PageNumber { get; set; }    

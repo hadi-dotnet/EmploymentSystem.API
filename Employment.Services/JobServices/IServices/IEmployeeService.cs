@@ -14,9 +14,9 @@ namespace Job.Services.JobServices.Services
     public interface IEmployeeService
     {
         Task<Result> UpdateEmployee(EmployeeDTO updateEmployeeDTO);
-        Task<GetInforamtionDTO?> GetEmployeeInformation();
+        Task<Result<GetInforamtionDTO?>> GetEmployeeInformation();
         Task<Result> AddSkill(List<AddSkillDTO> SkillTypeIDDTO);
-        Task<List<FindSkillsDTO>> FindSkills(string SkillName);
+        Task<Result<List<FindSkillsDTO>>> FindSkills(string SkillName);
         Task<Result> Applyskill(int SkillID);
         Task<Result> UpdateSkill(int SkillID, string Name);
         Task<Result> DeleteSkill(int SkillID);

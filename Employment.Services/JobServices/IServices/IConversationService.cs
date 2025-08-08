@@ -2,6 +2,7 @@
 using Job.Services.JobServices.Results;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace Job.Services.JobServices.Services
     {
         Task<Result> CreateConversation(string UserID2);
         Task<Result> SendMessage(MessageDTO message);
-        Task<List<GetMessageDTO>?> GetMessages(int ConversationID);
-        Task<List<GetConversationDTO>> GetConversations();
+        Task<Result<List<GetMessageDTO>?>> GetMessages(int ConversationID);
+        Task<Result<List<GetConversationDTO>>> GetConversations();
     }
 }

@@ -1,10 +1,13 @@
 ﻿using Employment.Infrastructure.Entitys;
 using Job.Services.Business;
+using Job.Services.JobServices.DTOs.ComapnyDTO;
 using Job.Services.JobServices.DTOs.EmployeeDTO;
 using Job.Services.JobServices.DTOs.SkillsDTO;
+using Job.Services.JobServices.Results;
 using Job.Services.JobServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
@@ -29,10 +32,10 @@ namespace Job.API.Controllers
         
         public async Task< IActionResult> UpdateEmployee([FromBody] EmployeeDTO updateEmployee)
         {           
-            var result = await _employee.UpdateEmployee(updateEmployee);
-            if(!result.Success)
-                return BadRequest(result.Message);          
-            return Ok(result.Message);
+            var res = await _employee.UpdateEmployee(updateEmployee);
+            if(!res.Success)
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));          
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
 
@@ -44,25 +47,25 @@ namespace Job.API.Controllers
             {
                 var res =await _employee.GetEmployeeInformation();
                 if (res == null)
-                    return BadRequest();
-                return Ok(res);
+                    return BadRequest(ApiResponse<GetInforamtionDTO>.ErrorResponse(res?.Message));
+                return Ok(ApiResponse<GetInforamtionDTO>.SuccessResponse(res.Data,res.Message));
             }
             else
             {
                 var res = await _company.GetCompanyInformation();
-                if (res == null)
-                    return BadRequest();
-                return Ok(res);
+                if (!res.Success)
+                    return BadRequest(ApiResponse<CompanyDTO>.ErrorResponse(res.Message));
+                return Ok(ApiResponse<CompanyDTO>.SuccessResponse(res.Data,res.Message));
             }        
         }
 
         [HttpGet("FindSkill")]
-        public async Task<ActionResult<List<FindSkillsDTO>>> FindSkills ([FromQuery]string SkillName)
+        public async Task<IActionResult> FindSkills ([FromQuery]string SkillName)
         {
-            var SkillList = await _employee.FindSkills(SkillName);
-            if (SkillList == null)
-                return NotFound();
-            return Ok(SkillList);
+            var res = await _employee.FindSkills(SkillName);
+            if (res == null)
+                return BadRequest(ApiResponse<List<FindSkillsDTO>>.ErrorResponse(res?.Message));
+            return Ok(ApiResponse<List<FindSkillsDTO>>.SuccessResponse(res.Data,res.Message));
         }
 
         [HttpPost("AddSkills")]
@@ -70,35 +73,35 @@ namespace Job.API.Controllers
         {
             var res = await _employee.AddSkill(skills);
             if(!res.Success)
-                return BadRequest(res.Message);
-            return Ok(res.Message);
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
         [AllowAnonymous]
         [HttpPost("ApplySkill")]
         public async Task<IActionResult> ApplySkill([FromQuery]int SkillID)
         {           
-            var result =  await _employee.Applyskill(SkillID);
-            if(!result.Success)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+            var res =  await _employee.Applyskill(SkillID);
+            if(!res.Success)
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [HttpPut("UpdateSkill")]
         public async Task<IActionResult> UpdateSkill ([FromQuery] int SkillID,[FromQuery] string skillName)
         {         
-            var result = await _employee.UpdateSkill(SkillID,skillName);
-            if (!result.Success)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+            var res = await _employee.UpdateSkill(SkillID,skillName);
+            if (!res.Success)
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
         [HttpDelete("DeleteSkill")]
         public async Task<IActionResult> DeleteSkill([FromQuery] int SkillID)
         {
-            var result = await _employee.DeleteSkill(SkillID);
-            if (!result.Success)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+            var res = await _employee.DeleteSkill(SkillID);
+            if (!res.Success)
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
 

@@ -3182,11 +3182,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\المجرة\\source\\repos\\EmploymentAPI\\Job.API.csproj",
+      "projectUniqueName": "C:\\EmployementSystemAPI\\EmploymentAPI\\Job.API.csproj",
       "projectName": "Job.API",
-      "projectPath": "C:\\Users\\المجرة\\source\\repos\\EmploymentAPI\\Job.API.csproj",
+      "projectPath": "C:\\EmployementSystemAPI\\EmploymentAPI\\Job.API.csproj",
       "packagesPath": "C:\\Users\\المجرة\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\المجرة\\source\\repos\\EmploymentAPI\\obj\\",
+      "outputPath": "C:\\EmployementSystemAPI\\EmploymentAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3208,14 +3208,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\المجرة\\source\\repos\\Employment.Core\\Job.Core.csproj": {
-              "projectPath": "C:\\Users\\المجرة\\source\\repos\\Employment.Core\\Job.Core.csproj"
+            "C:\\EmployementSystemAPI\\Employment.Core\\Job.Core.csproj": {
+              "projectPath": "C:\\EmployementSystemAPI\\Employment.Core\\Job.Core.csproj"
             },
-            "C:\\Users\\المجرة\\source\\repos\\Employment.Infrastructure\\Job.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\المجرة\\source\\repos\\Employment.Infrastructure\\Job.Infrastructure.csproj"
+            "C:\\EmployementSystemAPI\\Employment.Infrastructure\\Job.Infrastructure.csproj": {
+              "projectPath": "C:\\EmployementSystemAPI\\Employment.Infrastructure\\Job.Infrastructure.csproj"
             },
-            "C:\\Users\\المجرة\\source\\repos\\Employment.Services\\Job.Services.csproj": {
-              "projectPath": "C:\\Users\\المجرة\\source\\repos\\Employment.Services\\Job.Services.csproj"
+            "C:\\EmployementSystemAPI\\Employment.Services\\Job.Services.csproj": {
+              "projectPath": "C:\\EmployementSystemAPI\\Employment.Services\\Job.Services.csproj"
             }
           }
         }

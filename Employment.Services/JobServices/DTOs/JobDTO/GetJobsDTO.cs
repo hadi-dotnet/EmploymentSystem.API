@@ -9,7 +9,7 @@ namespace Job.Services.JobServices.DTOs.JobDTO
 {
     public class GetJobsDTO
     {
-       public string? CompanyNmae { get; set; }
+       public string? CompanyName { get; set; }
         public string? CompanyID { get; set; }
         public string? Content { get; set; }
         public string? Title { get; set; }

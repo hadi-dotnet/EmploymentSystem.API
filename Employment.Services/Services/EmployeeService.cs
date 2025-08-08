@@ -55,14 +55,13 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var UserID = _userService.GetCuurentUserID();
             var employee = await _dbContext.Employees.FirstOrDefaultAsync(x => x.UserID == UserID);
             if (employee == null)
-            {
-                return new Result { Success = false, Message = "user Not found" };
-            }
+                return Result.Fail("User Not Found");
+
 
             employee.FirstName = SetORNull(updateEmployeeDTO.FirstName);
             employee.secoundName = SetORNull(updateEmployeeDTO.secoundName);
@@ -72,10 +71,10 @@ namespace Job.Services.Business
             employee.UniverCity = SetORNull(updateEmployeeDTO.UniverCity);
 
             await _dbContext.SaveChangesAsync();
-            return new Result { Success = true, Message = "updated seccessfully" };
+            return Result.SuccessResult("Updated Success");
         }
 
-        public async Task<List< FindSkillsDTO>> FindSkills(string SkillName)
+        public async Task<Result< List< FindSkillsDTO>>> FindSkills(string SkillName)
         {
             var SkillListChach =await GetSkillsChach();        
             var list = SkillListChach.Where(x => !string.IsNullOrEmpty(x.TypeName) &&
@@ -84,11 +83,11 @@ namespace Job.Services.Business
                 ID = x.id,
                 SkillName = x.TypeName
             }).ToList() ;
-         
-            return list;
+
+            return Result<List<FindSkillsDTO>>.SuccessResult(list, "Found");
         }
 
-        public async Task<GetInforamtionDTO?> GetEmployeeInformation()
+        public async Task<Result< GetInforamtionDTO?>?> GetEmployeeInformation()
         {
             var UserID = _userService.GetCuurentUserID();
             var em = new GetInforamtionDTO();
@@ -96,7 +95,8 @@ namespace Job.Services.Business
                 .Include(x => x.Skills).ThenInclude(x => x.ApplySkill).Include(x=>x.Experiences).
                 FirstOrDefaultAsync(x => x.UserID == UserID);
             if (Employee == null)
-                return null;
+                return Result<GetInforamtionDTO?>.Fail("Employee Not found");
+
             em.FirstName = Employee.FirstName;
             em.secoundName = Employee.secoundName;
             em.LastName = Employee.LastName;
@@ -121,14 +121,14 @@ namespace Job.Services.Business
                 Title = x.Title,
             }).ToList();
 
-            return em;
+            return Result<GetInforamtionDTO?>.SuccessResult(em,"Success");
         }
 
         public async Task<Result> AddSkill(List< AddSkillDTO> SkillTypeIDDTO)
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                 return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var EmployeeID = _userService.GetCuurentUserID();
             var SkillList =await GetSkillsChach();
@@ -136,11 +136,11 @@ namespace Job.Services.Business
             {
                 var IsSkillExest = SkillList.FirstOrDefault(x=>x.id == skill.SkillTypeID);
                 if (IsSkillExest == null)
-                    return new Result { Success = false, Message = "Bad Requst .. The Skill Is Not Exest" };
+                    return Result.Fail("Bad Requst .. The Skill Is Not Exest");
                 
-                var k = await _dbContext.Skills.FirstOrDefaultAsync(x=>x.SkillTypeID == skill.SkillTypeID&&x.EmployeeID==EmployeeID);
-                if(k!=null)
-                    return new Result { Success = false, Message = "Bad Requst .. The Skill Already Exest" };
+                var IsAlreadyExest = await _dbContext.Skills.FirstOrDefaultAsync(x=>x.SkillTypeID == skill.SkillTypeID&&x.EmployeeID==EmployeeID);
+                if (IsAlreadyExest != null)
+                    return Result.Fail("Bad Requst .. The Skill Already Exest");
 
                 var EnSkill = new Skills
                 {
@@ -153,46 +153,49 @@ namespace Job.Services.Business
             }
             await _dbContext.SaveChangesAsync();
 
-            return new Result { Success = true, Message = "Added Completed" };
+            return Result.SuccessResult("Added success");
         }  
 
         public async Task<Result> Applyskill(int SkillID)
         {
             var UserID = _userService.GetCuurentUserID();
             if (SkillID <= 0)
-                return new Result { Success = false, Message = "Bad Requst" };
+                return Result.Fail("Invaled SkillID");
 
             var Em =await _dbContext.Skills.FirstOrDefaultAsync(x=>x.Id==SkillID);
-            if(Em==null)
-                return new Result { Success = false, Message = "The Skill Is Not Exest" };
+            if (Em == null)
+                return Result.Fail("The Skill Is Not Exest");
 
-            if(Em.EmployeeID == UserID)
-                return new Result { Success = false, Message = "You Cant Apply For Yourself" };
+            if (Em.EmployeeID == UserID)
+                return Result.Fail("You Cant Apply For Yourself");
 
             var ItemOfAplly = new ApplySkill();
             ItemOfAplly.SkillID = SkillID;
             ItemOfAplly.UserID= UserID;
             await _dbContext.ApplySkill.AddAsync(ItemOfAplly);
             await _dbContext.SaveChangesAsync();
-            return new Result { Success = true, Message = "Added Seccess" };
+            return Result.SuccessResult("Aplly Success");
         }
 
         public async Task<Result> UpdateSkill(int SkillID,string Name)
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success=false,Message = "You Have No Access"};
+                return Result.Fail("User Type Error .. You Have No access");
 
             var UserID = _userService.GetCuurentUserID();
-            if (SkillID <= 0 || string.IsNullOrWhiteSpace(UserID) || string.IsNullOrEmpty(Name))
-                return new Result { Success = false, Message = "Bad Requst" };
+            if (SkillID <= 0 || string.IsNullOrEmpty(UserID) || string.IsNullOrWhiteSpace(Name))
+                return Result.Fail("Invaled Input");
 
-            var Skill =await _dbContext.Skills.FirstOrDefaultAsync(x => x.EmployeeID == UserID && x.Id == SkillID);
+            var Skill =await _dbContext.Skills.FirstOrDefaultAsync(x=>x.Id == SkillID);
             if (Skill == null)
-                return new Result { Success = false, Message = "Not Found" };
+                return Result.Fail("Not Found");
+
+            if (Skill.EmployeeID != UserID)
+                return Result.Fail("You Have No Access");
                    
             await _dbContext.SaveChangesAsync();
-            return new Result { Success = true, Message = "Update Complete" };
+            return Result.SuccessResult("updated complete");
 
         }
 
@@ -200,16 +203,19 @@ namespace Job.Services.Business
         {
             var UserRole = _userService.GetRole();
             if (UserRole != UserTypeEnum.Employee.ToString())
-                return new Result { Success = false, Message = "You Have No Access" };
+                return Result.Fail("User Type Error .. You Have No access");
 
             var UserID = _userService.GetCuurentUserID();
-            if (SkillID <= 0 || string.IsNullOrEmpty(UserID) )
-                return new Result { Success = false, Message = "Bad Requst" };
+            if (SkillID <= 0 || string.IsNullOrEmpty(UserID))
+                return Result.Fail("Invaled Input");
           
 
-            var Skill = await _dbContext.Skills.FirstOrDefaultAsync(x => x.EmployeeID == UserID && x.Id == SkillID);
+            var Skill = await _dbContext.Skills.FirstOrDefaultAsync(x=> x.Id == SkillID);
             if (Skill == null)
-                return new Result { Success = false, Message = "Not Found" };
+                return Result.Fail("not Found");
+
+            if (Skill.EmployeeID != UserID)
+                return Result.Fail("You Have No access");
 
             try
             {
@@ -219,10 +225,10 @@ namespace Job.Services.Business
             }
             catch (Exception)
             {
-                return new Result { Success = false, Message = "you Cant Delete This Skill" };
+                return Result.Fail("YOu Can not Delete Thes Skill");
 
             }
-            return new Result { Success = true, Message = "Delete Complete" };
+            return Result.SuccessResult("Deleted Success");
 
         }
 

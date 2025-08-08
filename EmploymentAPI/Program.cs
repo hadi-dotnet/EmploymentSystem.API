@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Job.Services.JobServices.Services;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +24,20 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "JobAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Employment System API",
+        Version = "v1",
+        Description = "An ASP.NET Core Web API for managing jobs, companies, and employees.",
+        Contact = new OpenApiContact
+        {
+            Name = "Hadi",
+            Url = new Uri("https://github.com/hadi-dotnet")
+        }
+    });
 
-    // ÊÚÑíÝ schema ááÜ JWT Bearer
+
+    
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme.  
@@ -38,7 +50,7 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT"
     });
 
-    // ÌÚá ÇáÜ endpoints ÊÓÊÎÏã ÇáÜ Bearer Auth
+   
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
@@ -107,11 +119,10 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 

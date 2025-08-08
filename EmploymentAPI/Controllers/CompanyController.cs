@@ -1,6 +1,8 @@
-﻿using Job.Core.Entitys;
+﻿using Job.API.Dtos;
+using Job.Core.Entitys;
 using Job.Services.Business;
 using Job.Services.JobServices.DTOs.ComapnyDTO;
+using Job.Services.JobServices.Results;
 using Job.Services.JobServices.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,45 +18,27 @@ namespace Job.API.Controllers
     public class CompanyController : ControllerBase
     {
         private readonly ICompanyService _company;
-        private readonly IManageImageService _ManageImage;
-        private readonly IUserService _userservice;
-        public CompanyController(ICompanyService Icom, IManageImageService Manageimage,IUserService userService)
+        public CompanyController(ICompanyService Icom)
         {
             _company = Icom;    
-            _ManageImage = Manageimage;
-            _userservice = userService;
         }
 
         [HttpPut("UpdateCompany")]
-        public async Task<IActionResult> UpdateCompany([FromForm] Dtos.CompanyDTOAPI companyDTOApi)
-        {
-            var Userrole = User.FindFirst(ClaimTypes.Role)?.Value;
-            if (Userrole != "Company")
-            {
-                return Unauthorized();
-            }
-
-            var company = new CompanyDTO();
-            company.ImagePath =await _company.SetImage(companyDTOApi.Logo);
-            company.Address = companyDTOApi.Address;
-            company.About = companyDTOApi.About;
-            company.Name = companyDTOApi.Name;
-         
-            var Result = await _company.UpdateCompany(company);
-            if(!Result.Success)
-            {
-                return BadRequest(Result.Message);
-            }
-
-            return Ok(Result.Message);
+        public async Task<IActionResult> UpdateCompany([FromForm] UpdateCompanyDTO companyDTOApi)
+        {        
+            var res = await _company.UpdateCompany(companyDTOApi);
+            if(!res.Success)
+                return BadRequest(ApiResponse.ErrorResponse(res.Message));          
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
         [AllowAnonymous]
         [HttpGet("FindCompany")]
-        public async Task<ActionResult<List< FindCompanyDTO>>> FindCompany([FromQuery] string companyName)
+        public async Task<IActionResult> FindCompany([FromQuery] string companyName)
         {
-            var CompanyList = await _company.FindCompany(companyName);
-            if (CompanyList == null) return NotFound("Not Found");
-            return Ok(CompanyList);
+            var res = await _company.FindCompany(companyName);
+            if (!res.Success)
+                return NotFound(ApiResponse<List<FindCompanyDTO>>.ErrorResponse(res?.Message));
+            return Ok(ApiResponse<List<FindCompanyDTO>>.SuccessResponse(res.Data,res.Message));
         }
 
 

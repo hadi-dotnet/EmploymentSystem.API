@@ -1,4 +1,5 @@
 ﻿using Employment.Infrastructure.Entitys;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,7 @@ namespace Job.Services.JobServices.DTOs.ComapnyDTO
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "About must contain letters and spaces only.")]
         public string? About { get; set; }
         public string? ImagePath { get; set; }
+
 
 
     }

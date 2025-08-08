@@ -825,11 +825,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\المجرة\\source\\repos\\Employment.Core\\Job.Core.csproj",
+      "projectUniqueName": "C:\\EmployementSystemAPI\\Employment.Core\\Job.Core.csproj",
       "projectName": "Job.Core",
-      "projectPath": "C:\\Users\\المجرة\\source\\repos\\Employment.Core\\Job.Core.csproj",
+      "projectPath": "C:\\EmployementSystemAPI\\Employment.Core\\Job.Core.csproj",
       "packagesPath": "C:\\Users\\المجرة\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\المجرة\\source\\repos\\Employment.Core\\obj\\",
+      "outputPath": "C:\\EmployementSystemAPI\\Employment.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

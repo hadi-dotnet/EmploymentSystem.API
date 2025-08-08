@@ -1,4 +1,6 @@
 ﻿using Employment.Infrastructure.Context;
+using Employment.Infrastructure.Entitys;
+using Job.API.Dtos;
 using Job.Core.Entitys;
 using Job.Services.JobServices.DTOs.ComapnyDTO;
 using Job.Services.JobServices.Results;
@@ -9,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +22,24 @@ namespace Job.Services.Business
     {
         private readonly AppDBContext _context;
         private readonly IUserService _userservice;
-        private readonly IManageImageService _imageservice;
+        
        
-        public CompanyService(AppDBContext context, IUserService userservice, IManageImageService imageservice)
+        public CompanyService(AppDBContext context, IUserService userservice)
         {
             _context = context;
             _userservice = userservice;
-            _imageservice = imageservice;
             
+            
+        }
+
+        public void DeleteOldImage(string? ImagePath)
+        {
+           
+            if (!string.IsNullOrEmpty(ImagePath) && System.IO.File.Exists(ImagePath))
+            {
+                System.IO.File.Delete(ImagePath);
+            }
+
         }
 
         private string? SetORNull(string? value)
@@ -34,19 +47,16 @@ namespace Job.Services.Business
             return string.IsNullOrWhiteSpace(value) ? null : value;
         }
         
-        public async Task<string?> SetImage(IFormFile Image)
+        public async Task<string?> SetImage(string? ImagePath,IFormFile? Image)
         {
-            var UserID = _userservice.GetCuurentUserID();
-            _imageservice.DeleteOldImage(UserID);
+            DeleteOldImage(ImagePath);
 
             if (Image == null || Image.Length == 0)
             {
-
                 return null;
             }
             else
             {
-
                 var fileName = $"{Guid.NewGuid()}{Path.GetExtension(Image.FileName)}";
                 var path = Path.Combine("C:\\ImageForJobProject\\", fileName);
 
@@ -62,30 +72,34 @@ namespace Job.Services.Business
             }
         }
 
-        public async Task<Result> UpdateCompany(CompanyDTO companyDTO)
+        public async Task<Result> UpdateCompany(UpdateCompanyDTO CompanyDTO)
         {
+            var Role = _userservice.GetRole();
+            if (Role != UserTypeEnum.Company.ToString())
+                return Result.Fail("You Have No Access");
+
             var UserID = _userservice.GetCuurentUserID();
-            var Company =await _context.Companies.FirstOrDefaultAsync(x => x.UserID == UserID);
+            var Company = await _context.Companies.FirstOrDefaultAsync(x => x.UserID == UserID);
             if (Company == null)
             {
-                return new Result { Success = false, Message = "Not Found" };
+                return Result.Fail("Not Found");
             }
 
-            Company.Name = SetORNull(companyDTO.Name);
-            Company.Address = SetORNull(companyDTO.Address);
-            Company.About = SetORNull(companyDTO.About);
-            Company.Image = SetORNull(companyDTO.ImagePath);
+            Company.Image = await SetImage(Company.Image,CompanyDTO.Logo);
+            Company.Name = SetORNull(CompanyDTO.Name);
+            Company.Address = SetORNull(CompanyDTO.Address);
+            Company.About = SetORNull(CompanyDTO.About);
 
             await _context.SaveChangesAsync();
-            return new Result { Success = true, Message = "Update Complete" };
+            return Result.SuccessResult("Update Compalete");
         }
 
-        public async Task<CompanyDTO?> GetCompanyInformation()
+        public async Task<Result< CompanyDTO?>> GetCompanyInformation()
         {
             var UserID = _userservice.GetCuurentUserID();
             var Company = await _context.Companies.FirstOrDefaultAsync(x=>x.UserID == UserID);
             if (Company == null)
-                return null;
+                return Result<CompanyDTO?>.Fail("Not Found");
 
             var companyDTO = new CompanyDTO
             {
@@ -95,21 +109,28 @@ namespace Job.Services.Business
                 About = SetORNull(Company.About),
             };
 
-            return companyDTO;
+            return Result<CompanyDTO?>.SuccessResult(companyDTO, "Success");
         }
 
-        public async Task<List< FindCompanyDTO>?> FindCompany(string CompanyName)
+        public async Task<Result<List<FindCompanyDTO>?>> FindCompany(string CompanyName)
         {
             if (string.IsNullOrWhiteSpace(CompanyName))
-                return null;
+                return Result<List<FindCompanyDTO>?>.Fail("Not Found");
 
-            var CompanyList = await _context.Companies.Where(x =>!string.IsNullOrEmpty(x.Name)&& x.Name.ToLower().Contains(CompanyName))
-                                .Select(x=> new FindCompanyDTO
-                                {
-                                    ComId = x.UserID,
-                                    CompanyName = x.Name
-                                }).ToListAsync();
-            return CompanyList;
+            var companies = await _context.Companies
+                .Where(x => !string.IsNullOrEmpty(x.Name) && x.Name.ToLower().Contains(CompanyName.ToLower()))
+                .Select(company => new FindCompanyDTO
+                {
+                    ComId = company.UserID,
+                    CompanyName = company.Name
+                })
+                .ToListAsync();
+
+            if (companies.Count == 0)
+                return Result<List<FindCompanyDTO>?>.Fail("Not Found");
+
+            return Result<List<FindCompanyDTO>?>.SuccessResult(companies, "Success");
+
         }
 
        

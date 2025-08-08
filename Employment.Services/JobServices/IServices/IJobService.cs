@@ -14,8 +14,8 @@ namespace Job.Services.JobServices.Services
         Task<Result> UpdateJob(UpdateJobDTO jobDTO);
         Task<Result> DeleteJob(int JobID);
         Task<Result> ApplyJob(int JobID);
-        Task<JobResult<GetJobsDTO>> GetJobs(int PageNumber, int PageSize);
-        Task<JobResult<GetJobsDTO>> GetJobBySkillType(int PageNumber, int PageSize);
-        Task<JobResult<GetApplyJobDto>?> GetApplyJobs(int PageNumber, int PageSize);
+        Task<Result<PageResult<GetJobsDTO>?>> GetJobs(int PageNumber, int PageSize);
+        Task<Result<PageResult<GetJobsDTO>?>> GetJobBySkillType(int PageNumber, int PageSize);
+        Task<Result<PageResult<GetApplyJobDto>?>> GetApplyJobs(int PageNumber, int PageSize);
     }
 }

@@ -71,10 +71,9 @@ namespace Job.Services.Business
                 return new Result
                 {
                     Success = false,
-                    Errors = result.Errors.Select(e => e.Description).ToList()
+
                 };
             }
-
             if (dto.UserType == UserTypeEnum.Employee) 
             {
                 var employee = new Employees { UserID = user.Id };
@@ -90,7 +89,7 @@ namespace Job.Services.Business
                 return new Result
                 {
                     Success = false,
-                    Errors = new List<string> { "Invalid UserType" },
+                
                     Message = "Faild"
                 };
             }
@@ -112,13 +111,13 @@ namespace Job.Services.Business
 
             if (user == null)
             {
-                return new LoginResult { Success = false, Errors = new List<string> { "Invalid username or password." } };
+                return new LoginResult { Success = false,Message = "Invalid username or password." };
             }
           
             var passwordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
             if (!passwordValid)
             {
-                return new LoginResult { Success = false, Errors = new List<string> { "Invalid username or password." } };
+                return new LoginResult { Success = false , Message = "Invalid username or password." };
             }
           
             var token = GenerateJwtToken(user);

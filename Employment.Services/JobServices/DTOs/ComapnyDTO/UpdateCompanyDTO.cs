@@ -1,6 +1,8 @@
-﻿namespace Job.API.Dtos
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Job.API.Dtos
 {
-    public class CompanyDTOAPI
+    public class UpdateCompanyDTO
     {
         public string? Name { get; set; }
         public string? Address { get; set; }

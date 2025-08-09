@@ -14,19 +14,26 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 - 💬 Real-time-style chat/messages between users
 - 🧠 User skills & experiences with confirmation
 - 🔍 Search & filter companies and users
-- 📑 Admin and role-based access system
-- 🗃️ Clean and structured API with 26+ endpoints
+- 📑 Role-based access for Company and Employee
+- 🗃️ Clean and structured API with 26 endpoints
 
 ---
 
 ## ⚙️ Tech Stack
 
-- ASP.NET Core Web API (.NET 7+)
+- ASP.NET Core Web API (.NET 7)
 - Entity Framework Core
 - SQL Server
 - JWT Authentication
 - LINQ & Filtering
 - Service Layer Pattern for clean architecture
+
+---
+
+## 🖼️ Database Diagram
+
+![Database Diagram](./docs/db-diagram.png)
+
 ---
 
 ## 🚀 Getting Started
@@ -60,40 +67,35 @@ The API will start at: `https://localhost:5001`
 
 ## 🧪 API Testing
 
-> ✅ Swagger will be added soon  
-> ✅ Postman collection coming soon  
+> ✅ Swagger is available at: `https://localhost:5001/swagger`  
+> ⏳ Postman collection coming soon  
 
-For now, use Postman to manually test endpoints using Bearer token authentication.
-
----
-
-## 🔮 Future Improvements
-
-- Add Swagger UI
-- Add Postman collection with all endpoints
-- Implement global exception handler
-- Add unit testing
+For now, you can use Swagger to explore and test all endpoints,  
+or use Postman manually with Bearer token authentication.
 
 ---
 
 ## 📂 Folder Structure
 
 ```
-EmploymentSystem.API/
-│
-├── Controllers/
-├── Data/
-├── DTOs/
-├── Entities/
-├── Interfaces/
-├── Services/
-├── Helpers/
-├── appsettings.json
-└── Program.cs
+├── Job.API/                  # Web API project (Controllers, Program.cs)
+│   └── Controllers/
+├── Job.Core/                 # Core domain (Entities, DTOs, Enums)
+│   └── Entities/
+├── Job.Infrastructure/       # Persistence (DbContext, Migrations)
+│   └── Context/
+│   └── Migrations/
+├── Job.Services/             # Business logic (Services, DTOs, Interfaces, Results)
+│   ├── Services/
+│   ├── DTOs/
+│   └── Interfaces/
+├── docs/                     # Optional docs (db-diagram.png, Postman collection, etc.)
+└── README.md
 ```
 
 ---
 
 ## 🙌 Author
 
+Using ChatGPT to learn and explore new concepts.
 Built with love by [Hadi](https://github.com/hadi-dotnet) ❤️

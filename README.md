@@ -32,7 +32,7 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 
 ## 🖼️ Database Diagram
 
-![Database Diagram](./docs/db-diagram.png)
+![Database Diagram](./Images/JobDiagram.PNG)
 
 ---
 

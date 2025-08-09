@@ -71,8 +71,6 @@ builder.Services.AddSwaggerGen(c =>
 
 
 
-
-//builder.Services.AddScoped<IJobServices, test>();
 builder.Services.AddDbContext<AppDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddIdentity<AppUser,IdentityRole>().AddEntityFrameworkStores<AppDBContext>()
@@ -81,7 +79,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAuthService, AuthServiece>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
-builder.Services.AddScoped<IManageImageService, ManageImageService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IExperinceService, ExperinceService>();
 builder.Services.AddScoped<IJobService, JobService>();
@@ -117,8 +114,6 @@ builder.Services.AddAuthentication(options =>
 
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
 
     app.UseSwagger();
     app.UseSwaggerUI();

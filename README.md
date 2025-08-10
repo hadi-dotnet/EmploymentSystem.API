@@ -11,7 +11,7 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 - 🧑‍💼 Company & Employee management
 - 📄 Job posting by companies
 - 📝 Apply to jobs by users
-- 💬 Real-time-style chat/messages between users
+- 💬 chat/messages between users
 - 🧠 User skills & experiences with confirmation
 - 🔍 Search & filter companies and users
 - 📑 Role-based access for Company and Employee

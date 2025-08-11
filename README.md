@@ -80,7 +80,7 @@ or use Postman manually with Bearer token authentication.
 ```
 ├── Job.API/                  # Web API project (Controllers, Program.cs)
 │   └── Controllers/
-├── Job.Core/                 # Core domain (Entities, DTOs, Enums)
+├── Job.Core/                 # Core domain (Entities, Enums)
 │   └── Entities/
 ├── Job.Infrastructure/       # Persistence (DbContext, Migrations)
 │   └── Context/
@@ -88,8 +88,7 @@ or use Postman manually with Bearer token authentication.
 ├── Job.Services/             # Business logic (Services, DTOs, Interfaces, Results)
 │   ├── Services/
 │   ├── DTOs/
-│   └── Interfaces/
-├── docs/                     # Optional docs (db-diagram.png, Postman collection, etc.)
+│   └── Interfaces/         
 └── README.md
 ```
 

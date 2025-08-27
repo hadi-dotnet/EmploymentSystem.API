@@ -63,7 +63,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> FindSkills ([FromQuery]string SkillName)
         {
             var res = await _employee.FindSkills(SkillName);
-            if (!res.Success)
+            if (res == null)
                 return BadRequest(ApiResponse<List<FindSkillsDTO>>.ErrorResponse(res?.Message));
             return Ok(ApiResponse<List<FindSkillsDTO>>.SuccessResponse(res.Data,res.Message));
         }

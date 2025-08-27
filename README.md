@@ -11,7 +11,7 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 - 🧑‍💼 Company & Employee management
 - 📄 Job posting by companies
 - 📝 Apply to jobs by users
-- 💬 Real-time-style chat/messages between users
+- 💬 chat/messages between users
 - 🧠 User skills & experiences with confirmation
 - 🔍 Search & filter companies and users
 - 📑 Role-based access for Company and Employee
@@ -32,7 +32,7 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 
 ## 🖼️ Database Diagram
 
-![Database Diagram](./docs/db-diagram.png)
+![Database Diagram](./JobDiagram.PNG)
 
 ---
 
@@ -80,7 +80,7 @@ or use Postman manually with Bearer token authentication.
 ```
 ├── Job.API/                  # Web API project (Controllers, Program.cs)
 │   └── Controllers/
-├── Job.Core/                 # Core domain (Entities, DTOs, Enums)
+├── Job.Core/                 # Core domain (Entities, Enums)
 │   └── Entities/
 ├── Job.Infrastructure/       # Persistence (DbContext, Migrations)
 │   └── Context/
@@ -88,8 +88,7 @@ or use Postman manually with Bearer token authentication.
 ├── Job.Services/             # Business logic (Services, DTOs, Interfaces, Results)
 │   ├── Services/
 │   ├── DTOs/
-│   └── Interfaces/
-├── docs/                     # Optional docs (db-diagram.png, Postman collection, etc.)
+│   └── Interfaces/         
 └── README.md
 ```
 

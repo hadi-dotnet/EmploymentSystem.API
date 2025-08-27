@@ -28,8 +28,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Employment System API",
         Version = "v1",
-        Description = @"An ASP.NET Core Web API for managing jobs, companies, and employees.
-                      '1' for Company - '2' for Employee",
+        Description = "An ASP.NET Core Web API for managing jobs, companies, and employees.",
         Contact = new OpenApiContact
         {
             Name = "Hadi",

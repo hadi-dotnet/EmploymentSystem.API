@@ -68,7 +68,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> GetJobBySkillType([FromQuery] int PageNumber, [FromQuery] int PageSize)
         {
             var res = await _jobService.GetJobBySkillType(PageNumber, PageSize);
-            if (!res.Success)
+            if (res == null)
                 return BadRequest(ApiResponse<PageResult<GetJobsDTO>>.ErrorResponse(res?.Message));
             return Ok(ApiResponse<PageResult<GetJobsDTO>>.SuccessResponse(res.Data,res.Message));
         }
@@ -77,9 +77,9 @@ namespace Job.API.Controllers
         public async Task<IActionResult> GetApplyJobs([FromQuery] int PageNumber, [FromQuery] int PageSize)
         {
             var res = await _jobService.GetApplyJobs(PageNumber, PageSize);
-            if (!res.Success)
+            if (res == null)
                 return BadRequest(ApiResponse<PageResult<GetApplyJobDto>>.ErrorResponse(res?.Message));
-            return Ok(ApiResponse<PageResult<GetApplyJobDto>>.SuccessResponse(res.Data,res?.Message));
+            return Ok(ApiResponse<PageResult<GetApplyJobDto>>.ErrorResponse(res?.Message));
         }
     }
 }

@@ -39,14 +39,14 @@ namespace Job.API.Controllers
         }
 
 
-        [HttpGet("GetInformation")]
+        [HttpGet("GetInformationForEmployeeOrCompany")]
         public async Task<IActionResult> GetInformation()
         {
             var Role = User.FindFirstValue(ClaimTypes.Role);
             if (Role == UserTypeEnum.Employee.ToString())
             {
                 var res =await _employee.GetEmployeeInformation();
-                if (res == null)
+                if (!res.Success)
                     return BadRequest(ApiResponse<GetInforamtionDTO>.ErrorResponse(res?.Message));
                 return Ok(ApiResponse<GetInforamtionDTO>.SuccessResponse(res.Data,res.Message));
             }
@@ -63,7 +63,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> FindSkills ([FromQuery]string SkillName)
         {
             var res = await _employee.FindSkills(SkillName);
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse<List<FindSkillsDTO>>.ErrorResponse(res?.Message));
             return Ok(ApiResponse<List<FindSkillsDTO>>.SuccessResponse(res.Data,res.Message));
         }

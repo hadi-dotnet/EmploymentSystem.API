@@ -34,7 +34,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> UpdateExperince([FromBody] ExperinceDTO experienceDTO, [FromQuery] int ExperinceID)
         {
             var res =await _experince.UpdateExperince(experienceDTO, ExperinceID);
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse.ErrorResponse(res?.Message));
             return Ok(ApiResponse.SuccessResponse(res.Message));
         }
@@ -52,7 +52,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> ApllyExperince([FromQuery] int ExperinceID)
         {
             var res =await _experince.ApplyExperince(ExperinceID);
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse.ErrorResponse(res?.Message));
             return Ok(ApiResponse.SuccessResponse(res.Message));
         }

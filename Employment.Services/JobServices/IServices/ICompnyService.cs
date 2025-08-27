@@ -16,6 +16,6 @@ namespace Job.Services.JobServices.Services
         Task<Result> UpdateCompany (UpdateCompanyDTO companyDTO);
         Task<Result<CompanyDTO?>> GetCompanyInformation();
         Task<Result< List<FindCompanyDTO>?>> FindCompany(string CompanyName);
-       // Task<string?> SetImage(IFormFile Image);
+      
     }
 }

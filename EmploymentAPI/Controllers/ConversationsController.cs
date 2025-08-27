@@ -20,7 +20,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> CreateConversation([FromQuery]string UserID)
         {
             var res =await _conversationService.CreateConversation(UserID);
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse.ErrorResponse(res?.Message));
             return Ok(ApiResponse.SuccessResponse(res.Message));
         }
@@ -29,16 +29,16 @@ namespace Job.API.Controllers
         public async Task<IActionResult> SendMessage([FromBody]MessageDTO message)
         {
             var res = await _conversationService.SendMessage(message);
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse.ErrorResponse(res?.Message));
-            return Ok(ApiResponse.ErrorResponse(res.Message));
+            return Ok(ApiResponse.SuccessResponse(res.Message));
         }
 
         [HttpPost("GetMessage")]
         public async Task<IActionResult> GetMessage([FromQuery] int ConvID)
         {
             var res = await _conversationService.GetMessages(ConvID);
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse<List<GetMessageDTO>>.ErrorResponse(res?.Message));
             return Ok(ApiResponse<List<GetMessageDTO>>.SuccessResponse(res.Data,res.Message));
         }
@@ -47,7 +47,7 @@ namespace Job.API.Controllers
         public async Task<IActionResult> GetConversations()
         {
             var res = await _conversationService.GetConversations();
-            if (res == null)
+            if (!res.Success)
                 return BadRequest(ApiResponse<List<GetConversationDTO>>.ErrorResponse(res?.Message));
             return Ok(ApiResponse<List<GetConversationDTO>>.SuccessResponse(res.Data,res.Message));
         }

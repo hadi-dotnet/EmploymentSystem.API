@@ -58,6 +58,9 @@ namespace Job.Services.Business
 
         public async Task<Result> RegisterAsync(RegisterDto dto)
         {
+            if (!dto.Email.Contains("@"))
+                return new Result { Success = false, Message = "Invaled Email" };
+
             var user = new AppUser
             {
                 UserName = dto.UserName,

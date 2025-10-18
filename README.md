@@ -1,21 +1,24 @@
 # Employment System API
 
-An advanced employment management system built with ASP.NET Core Web API.  
-The system allows companies to post job vacancies, users to apply for jobs, and provides a full messaging system between users, in addition to skill and experience validation features.
+An advanced employment management system built with ASP.NET Core Web API, featuring 53 APIs. The system allows companies to post job vacancies, users to apply for jobs, and provides a full messaging system between users, in addition to skill and experience validation features. It also includes a professional social layer with features such as company following, user connections (similar to LinkedIn), and a posts system that supports likes and comments.
 
 ---
 
 ## 📌 Features
 
 - 🔐 User registration and authentication (JWT)
+- 📧 Email confirmation and password reset
 - 🧑‍💼 Company & Employee management
 - 📄 Job posting by companies
 - 📝 Apply to jobs by users
-- 💬 chat/messages between users
+- 💬 Chat and messaging between users
 - 🧠 User skills & experiences with confirmation
-- 🔍 Search & filter companies and users
+- 🔍 Search and filter companies and users
 - 📑 Role-based access for Company and Employee
-- 🗃️ Clean and structured API with 26 endpoints
+- 🤝 User connections (like LinkedIn)
+- 🏢 Follow companies
+- 📰 Posts system with likes and comments
+- 🗃️ Clean and well-structured API with 53 endpoints
 
 ---
 
@@ -27,6 +30,8 @@ The system allows companies to post job vacancies, users to apply for jobs, and 
 - JWT Authentication
 - LINQ & Filtering
 - Service Layer Pattern for clean architecture
+- Async/Await for better performance
+- Dependency Injection
 
 ---
 
@@ -75,6 +80,21 @@ or use Postman manually with Bearer token authentication.
 
 ---
 
+## 📧 Email Settings for Testing
+```
+"Smtp": {
+  "Host": "your-smtp-host",
+  "Port": 587,
+  "UseSsl": true,
+  "From": "your-email@example.com",
+  "User": "your-smtp-username",
+  "Password": "your-smtp-password"
+}
+```
+To test email confirmation and password reset features, replace the above values with your own SMTP account (e.g., Mailtrap for testing or your SMTP provider). This ensures emails are sent correctly
+
+---
+
 ## 📂 Folder Structure
 
 ```
@@ -98,3 +118,4 @@ or use Postman manually with Bearer token authentication.
 
 Using ChatGPT to learn and explore new concepts.
 Built with love by [Hadi](https://github.com/hadi-dotnet) ❤️
+linkedin : [Hadi-Aboshah](https://www.linkedin.com/in/hadi-aboshah/)
